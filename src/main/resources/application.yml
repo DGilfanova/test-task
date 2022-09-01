@@ -1,0 +1,19 @@
+server:
+  port: ${port:80}
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${datasource.url:jdbc:postgresql://localhost:5432/postgres}
+    username: ${datasource.username:sa}
+    password: ${datasource.password:123}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
