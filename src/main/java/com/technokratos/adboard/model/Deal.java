@@ -27,12 +27,6 @@ public class Deal {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    private String title;
-    private String content;
-
-    @Column(name = "is_active")
-    private Boolean isActive;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -41,8 +35,10 @@ public class Deal {
     @JoinColumn(name = "ad_id")
     private Advertisement advertisement;
 
+    @Column(name = "is_completed")
+    private Boolean isCompleted;
+
     private Timestamp created;
-    private Timestamp updated;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;

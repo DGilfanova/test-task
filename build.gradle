@@ -10,6 +10,7 @@ ext {
     dataCommonsVersion = '2.4.5'
     commonsLang3Version = '3.12.0'
     liquibaseVersion = '4.15.0'
+    mapstructVersion = '1.5.2.Final'
 }
 
 jar.enabled = false
@@ -33,9 +34,15 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springdoc:springdoc-openapi-ui:${swaggerVersion}"
     implementation "org.liquibase:liquibase-core:${liquibaseVersion}"
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+
     compileOnly "org.projectlombok:lombok"
+
     runtimeOnly "org.postgresql:postgresql"
+
     annotationProcessor "org.projectlombok:lombok"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
     testImplementation "org.springframework.boot:spring-boot-starter-test"
 }
 

@@ -28,21 +28,25 @@ public class Advertisement {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "is_completed")
-    private Boolean isCompleted;
+    private String title;
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "is_active")
+    private Boolean isActive;
+
     @ManyToMany
     @JoinTable(name = "ad_photo",
-        joinColumns = @JoinColumn(name = "photo_id"),
-        inverseJoinColumns = @JoinColumn(name = "ad_id"))
+        joinColumns = @JoinColumn(name = "ad_id"),
+        inverseJoinColumns = @JoinColumn(name = "photo_id"))
     @ToString.Exclude
     private Set<File> photos;
 
     private Timestamp created;
+    private Timestamp updated;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
