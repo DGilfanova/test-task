@@ -3,6 +3,8 @@ package com.technokratos.adboard.api;
 import java.util.List;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import com.technokratos.adboard.dto.request.CreateDealRequest;
 import com.technokratos.adboard.dto.response.AdResponse;
 import com.technokratos.adboard.dto.response.DealResponse;
@@ -58,5 +60,5 @@ public interface AdApi {
         produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     DealResponse createDeal(@PathVariable("ad-id") UUID adId,
-        @RequestBody CreateDealRequest newDeal);
+        @RequestBody @Valid CreateDealRequest newDeal);
 }
