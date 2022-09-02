@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+  <changeSet id="01-update-table-ad-photo" author="Diana">
+    <dropPrimaryKey tableName="ad_photo"/>
+    <dropColumn tableName="ad_photo" columnName="id"/>
+    <addPrimaryKey tableName="ad_photo" columnNames="ad_id, photo_id"/>
+  </changeSet>
+<!--  <changeSet id="01-drop-table-ad-photo" author="Diana">-->
+<!--    <dropTable tableName="ad_photo"/>-->
+<!--  </changeSet>-->
+
+<!--  <changeSet id="02-create-updated-table-ad-photo" author="Diana">-->
+<!--    <addColumn tableName="file">-->
+<!--      <column name="is_deleted" type="boolean" defaultValue="false"/>-->
+<!--    </addColumn>-->
+<!--  </changeSet>-->
+
+</databaseChangeLog>

@@ -11,6 +11,7 @@ import com.technokratos.adboard.dto.response.AdResponse;
 import com.technokratos.adboard.dto.response.DealResponse;
 import com.technokratos.adboard.dto.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -61,7 +62,7 @@ public interface UserApi {
     })
     @PutMapping(value = "/ad/{ad-id}/status", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    AdResponse updateAdStatus(@PathVariable("ad-id") UUID adId,
+    AdResponse updateAdStatus(@Parameter(description = "ad id") @PathVariable("ad-id") UUID adId,
         @RequestBody @Valid UpdateAdStatusRequest updateAdStatusRequest);
 
     @Operation(summary = "Making a deal")
@@ -73,5 +74,5 @@ public interface UserApi {
     })
     @PutMapping(value = "/deal/{deal-id}/status", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    DealResponse makeDeal(@PathVariable("deal-id") UUID dealId);
+    DealResponse makeDeal(@Parameter(description = "deal id") @PathVariable("deal-id") UUID dealId);
 }

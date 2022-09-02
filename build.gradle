@@ -11,6 +11,7 @@ ext {
     commonsLang3Version = '3.12.0'
     liquibaseVersion = '4.15.0'
     mapstructVersion = '1.5.2.Final'
+    minioVersion = '7.1.2'
 }
 
 jar.enabled = false
@@ -37,6 +38,7 @@ dependencies {
     implementation "org.springdoc:springdoc-openapi-ui:${swaggerVersion}"
     implementation "org.liquibase:liquibase-core:${liquibaseVersion}"
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    implementation "io.minio:minio:${minioVersion}"
 
     compileOnly "org.projectlombok:lombok"
 

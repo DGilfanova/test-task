@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import com.technokratos.adboard.dto.enums.FileType;
 import com.technokratos.adboard.dto.request.CreateAdRequest;
 import com.technokratos.adboard.dto.request.UpdateAdStatusRequest;
 import com.technokratos.adboard.dto.response.AdResponse;
@@ -15,9 +16,11 @@ import com.technokratos.adboard.model.User;
 import com.technokratos.adboard.repository.AdRepository;
 import com.technokratos.adboard.repository.UserRepository;
 import com.technokratos.adboard.service.AdService;
+import com.technokratos.adboard.service.FileService;
 import com.technokratos.adboard.utils.mapper.AdMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author d.gilfanova
@@ -25,6 +28,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AdServiceImpl implements AdService {
+
+    private final FileService fileService;
 
     private final AdRepository adRepository;
     private final UserRepository userRepository;
@@ -45,6 +50,7 @@ public class AdServiceImpl implements AdService {
         );
     }
 
+    @Transactional
     @Override
     public AdResponse createAd(CreateAdRequest newAd, User authUser) {
         //while we don't have security
@@ -52,12 +58,13 @@ public class AdServiceImpl implements AdService {
             .orElseThrow(UserNotFoundException::new);
         //check role (after adding security)
 
-        //save photos
-
         Advertisement advertisement = Advertisement.builder()
             .title(newAd.getTitle())
             .content(newAd.getContent())
             .user(user)
+            .photos(
+                fileService.uploadFiles(newAd.getPhotos(), FileType.PHOTO)
+            )
             .isActive(newAd.getIsActive())
             .created(Timestamp.valueOf(LocalDateTime.now()))
             .build();
@@ -67,6 +74,7 @@ public class AdServiceImpl implements AdService {
         );
     }
 
+    @Transactional
     @Override
     public AdResponse updateActiveStatus(UUID adId, UpdateAdStatusRequest adStatusRequest) {
         //check user access (after adding security)
