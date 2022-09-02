@@ -21,7 +21,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  * @author d.gilfanova
  */
 @Tag(name = "Advertisement controller", description = "advertisement operations")
-@RequestMapping("/api/v1/ad")
+@RequestMapping("/api/v1/advertisement")
 public interface AdApi {
 
     @Operation(summary = "Getting list of ads")
