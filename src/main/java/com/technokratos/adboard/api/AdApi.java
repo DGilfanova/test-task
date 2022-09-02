@@ -9,6 +9,7 @@ import com.technokratos.adboard.dto.request.CreateDealRequest;
 import com.technokratos.adboard.dto.response.AdResponse;
 import com.technokratos.adboard.dto.response.DealResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -46,7 +47,7 @@ public interface AdApi {
     })
     @GetMapping(value = "/{ad-id}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    AdResponse getAd(@PathVariable("ad-id") UUID adId);
+    AdResponse getAd(@Parameter(description = "ad id") @PathVariable("ad-id") UUID adId);
 
     @Operation(summary = "Creating deal")
     @ApiResponses(value = {
@@ -59,6 +60,6 @@ public interface AdApi {
     @PostMapping(value = "/{ad-id}/deal", consumes = APPLICATION_JSON_VALUE,
         produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    DealResponse createDeal(@PathVariable("ad-id") UUID adId,
+    DealResponse createDeal(@Parameter(description = "ad id") @PathVariable("ad-id") UUID adId,
         @RequestBody @Valid CreateDealRequest newDeal);
 }

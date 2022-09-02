@@ -17,3 +17,8 @@ spring:
       ddl-auto: none
   liquibase:
     change-log: classpath:db/changelog/changelog-master.xml
+
+minio:
+  url: ${minio.storage.url:http://127.0.0.1:9000}
+  access-key: ${minio.storage.access-key:minioadmin}
+  secret-key: ${minio.storage.secret-key:minioadmin}
