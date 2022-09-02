@@ -8,6 +8,7 @@ import javax.persistence.*;
 import com.technokratos.adboard.dto.enums.Role;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -19,6 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicInsert
 @Entity
 @Table(name = "users")
 public class User {
@@ -29,7 +31,9 @@ public class User {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(unique = true)
     private String email;
+
     private String password;
 
     @Enumerated(value = EnumType.STRING)

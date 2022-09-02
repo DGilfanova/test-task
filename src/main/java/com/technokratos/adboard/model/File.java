@@ -8,6 +8,7 @@ import javax.persistence.*;
 import com.technokratos.adboard.dto.enums.FileType;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.GenericGenerator;
 
 @Getter
@@ -16,8 +17,8 @@ import org.hibernate.annotations.GenericGenerator;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicInsert
 @Entity
-@Table(name = "file")
 public class File {
 
     @Id
@@ -39,6 +40,9 @@ public class File {
 
     private String link;
     private Timestamp created;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     @Override
     public boolean equals(Object o) {

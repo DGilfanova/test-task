@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -19,6 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicInsert
 @Entity
 public class Advertisement {
 

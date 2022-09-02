@@ -6,7 +6,9 @@ import java.util.UUID;
 
 import com.technokratos.adboard.dto.response.DealResponse;
 import com.technokratos.adboard.exception.AdNotFoundException;
+import com.technokratos.adboard.exception.DealNotFoundException;
 import com.technokratos.adboard.exception.UserNotFoundException;
+import com.technokratos.adboard.exception.UserUnavailableOperationException;
 import com.technokratos.adboard.model.Advertisement;
 import com.technokratos.adboard.model.Deal;
 import com.technokratos.adboard.model.User;
@@ -40,6 +42,10 @@ public class DealServiceImpl implements DealService {
         Advertisement advertisement = adRepository.findById(adId)
             .orElseThrow(AdNotFoundException::new);
 
+        if (user.getId().equals(advertisement.getUser().getId())) {
+            throw new UserUnavailableOperationException("User can't make a deal with himself");
+        }
+
         Deal newDeal = Deal.builder()
             .user(user)
             .advertisement(advertisement)
@@ -48,6 +54,24 @@ public class DealServiceImpl implements DealService {
 
         return dealMapper.toResponse(
             dealRepository.save(newDeal)
+        );
+    }
+
+    @Transactional
+    @Override
+    public DealResponse makeDeal(UUID dealId) {
+        //check access
+
+        Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
+
+        deal.setIsCompleted(true);
+
+        Advertisement advertisement = deal.getAdvertisement();
+        advertisement.setIsActive(false);
+        adRepository.save(advertisement);
+
+        return dealMapper.toResponse(
+            dealRepository.save(deal)
         );
     }
 }
