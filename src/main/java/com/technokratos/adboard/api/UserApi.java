@@ -2,6 +2,8 @@ package com.technokratos.adboard.api;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import com.technokratos.adboard.dto.request.UpdateAdStatusRequest;
 import com.technokratos.adboard.dto.request.CreateAdRequest;
 import com.technokratos.adboard.dto.request.CreateUserRequest;
@@ -36,7 +38,7 @@ public interface UserApi {
     })
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    UserResponse createUser(@RequestBody CreateUserRequest newUser);
+    UserResponse createUser(@RequestBody @Valid CreateUserRequest newUser);
 
     @Operation(summary = "Creating ad")
     @ApiResponses(value = {
@@ -48,7 +50,7 @@ public interface UserApi {
     @PostMapping(value = "/ad", consumes = MULTIPART_FORM_DATA_VALUE,
         produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    AdResponse createAd(@ModelAttribute CreateAdRequest newAd);
+    AdResponse createAd(@Valid CreateAdRequest newAd);
 
     @Operation(summary = "Updating ad status")
     @ApiResponses(value = {
@@ -60,7 +62,7 @@ public interface UserApi {
     @PutMapping(value = "/ad/{ad-id}/status", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     AdResponse updateAdStatus(@PathVariable("ad-id") UUID adId,
-        @RequestBody UpdateAdStatusRequest updateAdStatusRequest);
+        @RequestBody @Valid UpdateAdStatusRequest updateAdStatusRequest);
 
     @Operation(summary = "Making a deal")
     @ApiResponses(value = {
