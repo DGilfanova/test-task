@@ -9,4 +9,5 @@ import com.technokratos.adboard.dto.response.DealResponse;
  */
 public interface DealService {
     DealResponse createDeal(UUID adId, UUID userId);
+    DealResponse makeDeal(UUID dealId);
 }
