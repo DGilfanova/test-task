@@ -16,5 +16,5 @@ public interface AdService {
     List<AdResponse> getFilteredAds(FilterAdRequest filterAdRequest);
     AdResponse getAdById(UUID adId);
     AdResponse createAd(CreateAdRequest newAd, User authUser);
-    AdResponse updateActiveStatus(UUID adId, UpdateAdStatusRequest adStatusRequest);
+    AdResponse updateActiveStatus(UUID adId, UpdateAdStatusRequest adStatusRequest, User authUser);
 }

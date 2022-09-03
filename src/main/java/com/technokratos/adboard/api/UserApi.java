@@ -6,11 +6,9 @@ import javax.validation.Valid;
 
 import com.technokratos.adboard.dto.request.UpdateAdStatusRequest;
 import com.technokratos.adboard.dto.request.CreateAdRequest;
-import com.technokratos.adboard.dto.request.CreateUserRequest;
 import com.technokratos.adboard.dto.response.AdResponse;
 import com.technokratos.adboard.dto.response.DealResponse;
 import com.technokratos.adboard.dto.response.ErrorResponse;
-import com.technokratos.adboard.dto.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,18 +27,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
  */
 @Tag(name = "User controller", description = "user operations")
 @RequestMapping("/api/v1/user")
-public interface UserApi {
-
-    @Operation(summary = "Creating user")
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Successfully user creating",
-            content = {@Content(mediaType = "application/json",
-                schema = @Schema(implementation = UserResponse.class))
-            })
-    })
-    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    UserResponse createUser(@RequestBody @Valid CreateUserRequest newUser);
+public interface UserApi<PRINCIPAL> {
 
     @Operation(summary = "Creating ad")
     @ApiResponses(value = {
@@ -56,7 +43,7 @@ public interface UserApi {
     @PostMapping(value = "/ad", consumes = MULTIPART_FORM_DATA_VALUE,
         produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    AdResponse createAd(@Valid CreateAdRequest newAd);
+    AdResponse createAd(@Valid CreateAdRequest newAd, @Parameter(hidden = true) PRINCIPAL principal);
 
     @Operation(summary = "Updating ad status")
     @ApiResponses(value = {
@@ -72,7 +59,8 @@ public interface UserApi {
     @PutMapping(value = "/ad/{ad-id}/status", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     AdResponse updateAdStatus(@Parameter(description = "ad id") @PathVariable("ad-id") UUID adId,
-        @RequestBody @Valid UpdateAdStatusRequest updateAdStatusRequest);
+        @RequestBody @Valid UpdateAdStatusRequest updateAdStatusRequest,
+        @Parameter(hidden = true) PRINCIPAL principal);
 
     @Operation(summary = "Making a deal")
     @ApiResponses(value = {
@@ -87,5 +75,6 @@ public interface UserApi {
     })
     @PutMapping(value = "/deal/{deal-id}/status", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    DealResponse makeDeal(@Parameter(description = "deal id") @PathVariable("deal-id") UUID dealId);
+    DealResponse makeDeal(@Parameter(description = "deal id") @PathVariable("deal-id") UUID dealId,
+        @Parameter(hidden = true) PRINCIPAL principal);
 }

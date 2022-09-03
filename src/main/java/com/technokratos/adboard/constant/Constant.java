@@ -11,5 +11,7 @@ public class Constant {
 
     public final static Boolean NOT_DELETED = Boolean.FALSE;
     public final static Boolean ACTIVE = Boolean.TRUE;
-    public final static Boolean NOT_ACTIVE = Boolean.FALSE;
+
+    public final static String BEARER = "Bearer ";
+    public final static String ROLE = "ROLE";
 }

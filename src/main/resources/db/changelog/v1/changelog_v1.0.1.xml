@@ -10,5 +10,6 @@
   <include file="20220902_alter_table_user_and_file.xml" relativeToChangelogFile="true"/>
   <include file="20220902_alter_table_ad_photo.xml" relativeToChangelogFile="true"/>
   <include file="20220903_alter_table_file.xml" relativeToChangelogFile="true"/>
+  <include file="20220903_create_table_refresh_token.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

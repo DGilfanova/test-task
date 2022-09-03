@@ -12,6 +12,7 @@ ext {
     liquibaseVersion = '4.15.0'
     mapstructVersion = '1.5.2.Final'
     minioVersion = '7.1.2'
+    jwtVersion = '0.9.1'
 }
 
 jar.enabled = false
@@ -35,6 +36,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation("org.springframework.boot:spring-boot-starter-validation:${springBootVersion}")
+    implementation "io.jsonwebtoken:jjwt:${jwtVersion}"
     implementation "org.springdoc:springdoc-openapi-ui:${swaggerVersion}"
     implementation "org.liquibase:liquibase-core:${liquibaseVersion}"
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"

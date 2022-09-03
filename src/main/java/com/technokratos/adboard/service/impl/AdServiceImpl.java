@@ -11,11 +11,10 @@ import com.technokratos.adboard.dto.request.FilterAdRequest;
 import com.technokratos.adboard.dto.request.UpdateAdStatusRequest;
 import com.technokratos.adboard.dto.response.AdResponse;
 import com.technokratos.adboard.exception.AdNotFoundException;
-import com.technokratos.adboard.exception.UserNotFoundException;
+import com.technokratos.adboard.exception.UserUnavailableOperationException;
 import com.technokratos.adboard.model.Advertisement;
 import com.technokratos.adboard.model.User;
 import com.technokratos.adboard.repository.AdRepository;
-import com.technokratos.adboard.repository.UserRepository;
 import com.technokratos.adboard.service.AdService;
 import com.technokratos.adboard.service.FileService;
 import com.technokratos.adboard.specification.AdSpecification;
@@ -37,7 +36,6 @@ public class AdServiceImpl implements AdService {
     private final FileService fileService;
 
     private final AdRepository adRepository;
-    private final UserRepository userRepository;
 
     private final AdMapper adMapper;
 
@@ -61,14 +59,10 @@ public class AdServiceImpl implements AdService {
     @Transactional
     @Override
     public AdResponse createAd(CreateAdRequest newAd, User authUser) {
-        //while we don't have security
-        User user = userRepository.findByIdAndIsDeleted(newAd.getUserId(), NOT_DELETED)
-            .orElseThrow(UserNotFoundException::new);
-
         Advertisement advertisement = Advertisement.builder()
             .title(newAd.getTitle())
             .content(newAd.getContent())
-            .user(user)
+            .user(authUser)
             .photos(
                 fileService.uploadFiles(newAd.getPhotos(), FileType.PHOTO)
             )
@@ -83,11 +77,14 @@ public class AdServiceImpl implements AdService {
 
     @Transactional
     @Override
-    public AdResponse updateActiveStatus(UUID adId, UpdateAdStatusRequest adStatusRequest) {
-        //check user access (after adding security)
-
+    public AdResponse updateActiveStatus(UUID adId, UpdateAdStatusRequest adStatusRequest,
+        User authUser) {
         Advertisement advertisement = adRepository.findByIdAndIsDeleted(adId, NOT_DELETED)
             .orElseThrow(AdNotFoundException::new);
+
+        if (!advertisement.getUser().equals(authUser)) {
+            throw new UserUnavailableOperationException("User isn't the owner of ad to change it");
+        }
 
         advertisement.setIsActive(adStatusRequest.getIsActive());
 

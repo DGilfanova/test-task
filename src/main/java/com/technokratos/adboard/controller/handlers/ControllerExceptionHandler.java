@@ -8,6 +8,8 @@ import com.technokratos.adboard.dto.response.ErrorResponse;
 import com.technokratos.adboard.exception.BaseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -27,6 +29,30 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(BindException.class)
     public ResponseEntity<ErrorResponse> handleBindException(BindException exception) {
         return handleValidationException(exception.getBindingResult());
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException exception) {
+        ErrorResponse response = ErrorResponse.builder()
+            .errors(Collections.singletonList(
+                ErrorResponse.ErrorDto.builder()
+                    .exception(exception.getClass().getCanonicalName())
+                    .message(exception.getMessage())
+                    .build()))
+            .build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
+
+    @ExceptionHandler(value = AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException exception) {
+        ErrorResponse response = ErrorResponse.builder()
+            .errors(Collections.singletonList(
+                ErrorResponse.ErrorDto.builder()
+                    .exception(exception.getClass().getCanonicalName())
+                    .message(exception.getMessage())
+                    .build()))
+            .build();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
     @ExceptionHandler(BaseException.class)

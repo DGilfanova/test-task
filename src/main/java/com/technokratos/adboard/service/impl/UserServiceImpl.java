@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse createUser(CreateUserRequest newUserInfo) {
         if (userRepository.findByEmailAndIsDeleted(newUserInfo.getEmail().toLowerCase(), NOT_DELETED)
             .isPresent()) {
-            log.info("User with email {} already exist", newUserInfo.getEmail());
+            log.warn("Attempt to register with existing username {}", newUserInfo.getEmail());
 
             throw new UserUnavailableOperationException("User exist with email "
                                                         + newUserInfo.getEmail());

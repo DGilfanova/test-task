@@ -2,6 +2,7 @@ package com.technokratos.adboard.dto.request;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -29,7 +30,7 @@ public class FilterAdRequest {
     @Size(min = 1, max = 50, message = "{InvalidFilterSize}")
     private String content;
 
-    @Schema(description = "Seller email")
+    @Schema(description = "Owner email")
     @Size(min = 1, max = 50, message = "{InvalidFilterSize}")
     private String email;
 
@@ -38,5 +39,6 @@ public class FilterAdRequest {
     private LocalDateTime dateAfter;
 
     @Schema(description = "Min count of photo")
+    @Min(value = 0, message = "{PositiveValue}")
     private Long minPhotoCount;
 }

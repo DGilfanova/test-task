@@ -1,7 +1,6 @@
 package com.technokratos.adboard.dto.request;
 
 import java.util.UUID;
-
 import javax.validation.constraints.NotNull;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,18 +9,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * @author d.gilfanova
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Schema(description = "Create deal form")
-public class CreateDealRequest {
+@Schema(description = "Refresh token form")
+public class RefreshTokenRequest {
 
-    @Schema(description = "User id")
+    @Schema(name = "Expired refresh token")
     @NotNull(message = "{NotBlank}")
-    //while we don't have security
-    private UUID userId;
+    private UUID refreshToken;
 }
