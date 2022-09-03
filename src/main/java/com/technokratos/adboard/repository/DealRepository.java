@@ -1,5 +1,6 @@
 package com.technokratos.adboard.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,4 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface DealRepository extends JpaRepository<Deal, UUID> {
     Optional<Deal> findByIdAndIsDeleted(UUID id, Boolean isDeleted);
+    List<Deal> findByUserIdAndAdvertisementId(UUID userId, UUID advertisementId);
 }

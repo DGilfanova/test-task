@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,8 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import static com.technokratos.adboard.constant.Constant.NOT_DELETED;
-
 /**
  * @author d.gilfanova
  */
@@ -43,8 +42,10 @@ public class FileServiceImpl implements FileService {
     public Set<File> uploadFiles(MultipartFile[] files, FileType filesType) {
         Set<File> fileIds = new HashSet<>();
 
-        for (MultipartFile file: files) {
-            fileIds.add(uploadFile(file, filesType));
+        if (Objects.nonNull(files)) {
+            for (MultipartFile file: files) {
+                fileIds.add(uploadFile(file, filesType));
+            }
         }
 
         return fileIds;
@@ -75,8 +76,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public ResponseEntity<Resource> downloadFile(UUID id) {
-        File file = fileRepository.findByIdAndIsDeleted(id, NOT_DELETED)
-            .orElseThrow(FileNotFoundException::new);
+        File file = fileRepository.findById(id).orElseThrow(FileNotFoundException::new);
 
         FileContent fileContent = fileContentStorageService.getFileContent(file.getLink());
 

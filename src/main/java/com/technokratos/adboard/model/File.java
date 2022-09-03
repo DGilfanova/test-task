@@ -41,9 +41,6 @@ public class File {
     private String link;
     private Timestamp created;
 
-    @Column(name = "is_deleted")
-    private Boolean isDeleted;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

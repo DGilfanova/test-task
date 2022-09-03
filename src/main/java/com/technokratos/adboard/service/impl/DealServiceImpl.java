@@ -2,7 +2,6 @@ package com.technokratos.adboard.service.impl;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 import com.technokratos.adboard.dto.response.DealResponse;
@@ -48,6 +47,14 @@ public class DealServiceImpl implements DealService {
             .findByIdAndIsActiveAndIsDeleted(adId, ACTIVE, NOT_DELETED)
             .orElseThrow(AdNotFoundException::new);
 
+        boolean isDealAlreadyExist = dealRepository
+            .findByUserIdAndAdvertisementId(user.getId(), advertisement.getId())
+            .stream()
+            .anyMatch((d) -> !d.getIsDeleted());
+        if (isDealAlreadyExist) {
+            throw new UserUnavailableOperationException("User already make deal");
+        }
+
         if (user.getId().equals(advertisement.getUser().getId())) {
             throw new UserUnavailableOperationException("User can't make a deal with himself");
         }
@@ -66,15 +73,14 @@ public class DealServiceImpl implements DealService {
     @Transactional
     @Override
     public DealResponse makeDeal(UUID dealId) {
-        //check access
+        //check access (user = seller)
 
         Deal deal = dealRepository.findByIdAndIsDeleted(dealId, NOT_DELETED)
             .orElseThrow(DealNotFoundException::new);
 
         Advertisement advertisement = deal.getAdvertisement();
 
-        if (Objects.equals(advertisement.getIsActive(), Boolean.FALSE) ||
-                    Objects.equals(advertisement.getIsDeleted(), Boolean.TRUE)) {
+        if (!advertisement.getIsActive() || advertisement.getIsDeleted()) {
             throw new UserUnavailableOperationException("AD don't available anymore.");
         }
 
