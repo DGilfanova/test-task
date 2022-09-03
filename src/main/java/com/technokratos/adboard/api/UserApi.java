@@ -9,6 +9,7 @@ import com.technokratos.adboard.dto.request.CreateAdRequest;
 import com.technokratos.adboard.dto.request.CreateUserRequest;
 import com.technokratos.adboard.dto.response.AdResponse;
 import com.technokratos.adboard.dto.response.DealResponse;
+import com.technokratos.adboard.dto.response.ErrorResponse;
 import com.technokratos.adboard.dto.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -46,6 +47,10 @@ public interface UserApi {
         @ApiResponse(responseCode = "201", description = "Successfully ad creating",
             content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = AdResponse.class))
+            }),
+        @ApiResponse(responseCode = "404", description = "Required entity not found",
+            content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class))
             })
     })
     @PostMapping(value = "/ad", consumes = MULTIPART_FORM_DATA_VALUE,
@@ -58,6 +63,10 @@ public interface UserApi {
         @ApiResponse(responseCode = "200", description = "Successfully ad status updating",
             content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = AdResponse.class))
+            }),
+        @ApiResponse(responseCode = "404", description = "Ad not found",
+            content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class))
             })
     })
     @PutMapping(value = "/ad/{ad-id}/status", produces = APPLICATION_JSON_VALUE)
@@ -70,6 +79,10 @@ public interface UserApi {
         @ApiResponse(responseCode = "200", description = "Successfully deal making",
             content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = DealResponse.class))
+            }),
+        @ApiResponse(responseCode = "404", description = "Deal not found",
+            content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class))
             })
     })
     @PutMapping(value = "/deal/{deal-id}/status", produces = APPLICATION_JSON_VALUE)

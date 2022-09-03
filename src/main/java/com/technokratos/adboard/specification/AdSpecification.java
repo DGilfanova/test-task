@@ -22,7 +22,7 @@ import static com.technokratos.adboard.constant.Constant.NOT_DELETED;
 @Component
 public class AdSpecification {
 
-    public Specification<Advertisement> getApartments(FilterAdRequest request) {
+    public Specification<Advertisement> getAdvertisements(FilterAdRequest request) {
         return (root, query, criteriaBuilder) -> {
 
             List<Predicate> predicates = new ArrayList<>();

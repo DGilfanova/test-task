@@ -9,6 +9,7 @@ import com.technokratos.adboard.dto.request.CreateDealRequest;
 import com.technokratos.adboard.dto.request.FilterAdRequest;
 import com.technokratos.adboard.dto.response.AdResponse;
 import com.technokratos.adboard.dto.response.DealResponse;
+import com.technokratos.adboard.dto.response.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -36,7 +37,7 @@ public interface AdApi {
     })
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    List<AdResponse> getFilteredAds(@RequestBody FilterAdRequest filterAdRequest);
+    List<AdResponse> getFilteredAds(@Valid @RequestBody FilterAdRequest filterAdRequest);
 
     @Operation(summary = "Getting ad")
     @ApiResponses(value = {
@@ -44,7 +45,10 @@ public interface AdApi {
             content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = AdResponse.class))
             }),
-        @ApiResponse(responseCode = "404", description = "Ad not found")
+        @ApiResponse(responseCode = "404", description = "Ad not found",
+            content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class))
+            })
     })
     @GetMapping(value = "/{ad-id}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -56,7 +60,10 @@ public interface AdApi {
             content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = DealResponse.class))
             }),
-        @ApiResponse(responseCode = "404", description = "Ad not found")
+        @ApiResponse(responseCode = "404", description = "Required entity not found",
+            content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class))
+            })
     })
     @PostMapping(value = "/{ad-id}/deal", consumes = APPLICATION_JSON_VALUE,
         produces = APPLICATION_JSON_VALUE)

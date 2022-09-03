@@ -33,7 +33,7 @@ public class CreateUserRequest {
         message = "{WeakPassword}")
     private String password;
 
-    @Schema(description = "Role", example = "SELLER or BUYER")
+    @Schema(description = "Role", example = "ADMIN or USER")
     @NotNull(message = "{NotBlank}")
     private Role role;
 }

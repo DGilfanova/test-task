@@ -46,7 +46,7 @@ public class AdServiceImpl implements AdService {
     @Override
     public List<AdResponse> getFilteredAds(FilterAdRequest filterAdRequest) {
         return adMapper.toListResponse(
-            adRepository.findAll(adSpecification.getApartments(filterAdRequest))
+            adRepository.findAll(adSpecification.getAdvertisements(filterAdRequest))
         );
     }
 
@@ -64,7 +64,6 @@ public class AdServiceImpl implements AdService {
         //while we don't have security
         User user = userRepository.findByIdAndIsDeleted(newAd.getUserId(), NOT_DELETED)
             .orElseThrow(UserNotFoundException::new);
-        //check role (after adding security)
 
         Advertisement advertisement = Advertisement.builder()
             .title(newAd.getTitle())

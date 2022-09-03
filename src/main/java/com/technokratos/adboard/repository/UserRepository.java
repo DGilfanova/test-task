@@ -11,4 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByIdAndIsDeleted(UUID id, Boolean isDeleted);
+    Optional<User> findByEmailAndIsDeleted(String email, Boolean isDeleted);
 }
