@@ -8,6 +8,6 @@ import org.springframework.http.HttpStatus;
 public class AdNotFoundException extends BaseException {
 
     public AdNotFoundException() {
-        super("Advertisement not found", HttpStatus.NOT_FOUND);
+        super("Advertisement not found. Maybe it's not active anymore", HttpStatus.NOT_FOUND);
     }
 }

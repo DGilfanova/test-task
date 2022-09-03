@@ -41,18 +41,6 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(exception.getHttpStatus()).body(response);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception exception) {
-        ErrorResponse response = ErrorResponse.builder()
-            .errors(Collections.singletonList(
-                ErrorResponse.ErrorDto.builder()
-                    .exception(exception.getClass().getCanonicalName())
-                    .message(exception.getMessage())
-                    .build()))
-            .build();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-    }
-
     private ResponseEntity<ErrorResponse> handleValidationException(BindingResult bindingResult) {
         List<ErrorResponse.ErrorDto> errors = new ArrayList<>();
         bindingResult.getAllErrors().forEach((error) -> {

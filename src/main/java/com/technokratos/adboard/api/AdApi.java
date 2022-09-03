@@ -6,6 +6,7 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import com.technokratos.adboard.dto.request.CreateDealRequest;
+import com.technokratos.adboard.dto.request.FilterAdRequest;
 import com.technokratos.adboard.dto.response.AdResponse;
 import com.technokratos.adboard.dto.response.DealResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,15 +28,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequestMapping("/api/v1/advertisement")
 public interface AdApi {
 
-    @Operation(summary = "Getting list of ads")
+    @Operation(summary = "List of ads with filters")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successfully list of ads getting",
-                content = {@Content(mediaType = "application/json")
-                })
+            content = {@Content(mediaType = "application/json")
+            })
     })
-    @GetMapping(produces = APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    List<AdResponse> getAds();
+    List<AdResponse> getFilteredAds(@RequestBody FilterAdRequest filterAdRequest);
 
     @Operation(summary = "Getting ad")
     @ApiResponses(value = {

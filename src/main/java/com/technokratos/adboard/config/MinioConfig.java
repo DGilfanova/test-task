@@ -12,10 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MinioConfig {
 
-    public final static long MINIO_DEFAULT_OBJECT_SIZE = -1;
-    public final static long MINIO_DEFAULT_PART_SIZE = 10485760;
-    public final static String MINIO_BUCKET_NAME = "adboardfile";
-
     @Value("${minio.access-key}")
     private String accessKey;
 

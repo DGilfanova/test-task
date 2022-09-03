@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.technokratos.adboard.dto.enums.FileType;
 import com.technokratos.adboard.dto.request.CreateAdRequest;
+import com.technokratos.adboard.dto.request.FilterAdRequest;
 import com.technokratos.adboard.dto.request.UpdateAdStatusRequest;
 import com.technokratos.adboard.dto.response.AdResponse;
 import com.technokratos.adboard.exception.AdNotFoundException;
@@ -17,10 +18,14 @@ import com.technokratos.adboard.repository.AdRepository;
 import com.technokratos.adboard.repository.UserRepository;
 import com.technokratos.adboard.service.AdService;
 import com.technokratos.adboard.service.FileService;
+import com.technokratos.adboard.specification.AdSpecification;
 import com.technokratos.adboard.utils.mapper.AdMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.technokratos.adboard.constant.Constant.ACTIVE;
+import static com.technokratos.adboard.constant.Constant.NOT_DELETED;
 
 /**
  * @author d.gilfanova
@@ -36,17 +41,20 @@ public class AdServiceImpl implements AdService {
 
     private final AdMapper adMapper;
 
+    private final AdSpecification adSpecification;
+
     @Override
-    public List<AdResponse> getAllAds() {
+    public List<AdResponse> getFilteredAds(FilterAdRequest filterAdRequest) {
         return adMapper.toListResponse(
-            adRepository.findAll()
+            adRepository.findAll(adSpecification.getApartments(filterAdRequest))
         );
     }
 
     @Override
     public AdResponse getAdById(UUID adId) {
         return adMapper.toResponse(
-            adRepository.findById(adId).orElseThrow(AdNotFoundException::new)
+            adRepository.findByIdAndIsActiveAndIsDeleted(adId, ACTIVE, NOT_DELETED)
+                .orElseThrow(AdNotFoundException::new)
         );
     }
 
@@ -54,7 +62,7 @@ public class AdServiceImpl implements AdService {
     @Override
     public AdResponse createAd(CreateAdRequest newAd, User authUser) {
         //while we don't have security
-        User user = userRepository.findById(newAd.getUserId())
+        User user = userRepository.findByIdAndIsDeleted(newAd.getUserId(), NOT_DELETED)
             .orElseThrow(UserNotFoundException::new);
         //check role (after adding security)
 
@@ -79,7 +87,7 @@ public class AdServiceImpl implements AdService {
     public AdResponse updateActiveStatus(UUID adId, UpdateAdStatusRequest adStatusRequest) {
         //check user access (after adding security)
 
-        Advertisement advertisement = adRepository.findById(adId)
+        Advertisement advertisement = adRepository.findByIdAndIsDeleted(adId, NOT_DELETED)
             .orElseThrow(AdNotFoundException::new);
 
         advertisement.setIsActive(adStatusRequest.getIsActive());

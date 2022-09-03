@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import static com.technokratos.adboard.constant.Constant.NOT_DELETED;
+
 /**
  * @author d.gilfanova
  */
@@ -73,7 +75,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public ResponseEntity<Resource> downloadFile(UUID id) {
-        File file = fileRepository.findById(id)
+        File file = fileRepository.findByIdAndIsDeleted(id, NOT_DELETED)
             .orElseThrow(FileNotFoundException::new);
 
         FileContent fileContent = fileContentStorageService.getFileContent(file.getLink());
