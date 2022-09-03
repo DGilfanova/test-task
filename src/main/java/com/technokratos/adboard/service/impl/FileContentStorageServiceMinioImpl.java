@@ -12,9 +12,9 @@ import io.minio.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import static com.technokratos.adboard.config.MinioConfig.MINIO_BUCKET_NAME;
-import static com.technokratos.adboard.config.MinioConfig.MINIO_DEFAULT_OBJECT_SIZE;
-import static com.technokratos.adboard.config.MinioConfig.MINIO_DEFAULT_PART_SIZE;
+import static com.technokratos.adboard.constant.Constant.MINIO_BUCKET_NAME;
+import static com.technokratos.adboard.constant.Constant.MINIO_DEFAULT_OBJECT_SIZE;
+import static com.technokratos.adboard.constant.Constant.MINIO_DEFAULT_PART_SIZE;
 
 /**
  * @author d.gilfanova

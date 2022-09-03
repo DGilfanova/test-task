@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.technokratos.adboard.api.AdApi;
 import com.technokratos.adboard.dto.request.CreateDealRequest;
+import com.technokratos.adboard.dto.request.FilterAdRequest;
 import com.technokratos.adboard.dto.response.AdResponse;
 import com.technokratos.adboard.dto.response.DealResponse;
 import com.technokratos.adboard.service.AdService;
@@ -23,8 +24,8 @@ public class AdController implements AdApi {
     private final DealService dealService;
 
     @Override
-    public List<AdResponse> getAds() {
-        return adService.getAllAds();
+    public List<AdResponse> getFilteredAds(FilterAdRequest filterAdRequest) {
+        return adService.getFilteredAds(filterAdRequest);
     }
 
     @Override

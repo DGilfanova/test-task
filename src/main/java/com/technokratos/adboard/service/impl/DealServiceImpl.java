@@ -2,6 +2,7 @@ package com.technokratos.adboard.service.impl;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import com.technokratos.adboard.dto.response.DealResponse;
@@ -21,6 +22,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.technokratos.adboard.constant.Constant.ACTIVE;
+import static com.technokratos.adboard.constant.Constant.NOT_DELETED;
+
 /**
  * @author d.gilfanova
  */
@@ -37,9 +41,11 @@ public class DealServiceImpl implements DealService {
     @Transactional
     @Override
     public DealResponse createDeal(UUID adId, UUID userId) {
-        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByIdAndIsDeleted(userId, NOT_DELETED)
+            .orElseThrow(UserNotFoundException::new);
 
-        Advertisement advertisement = adRepository.findById(adId)
+        Advertisement advertisement = adRepository
+            .findByIdAndIsActiveAndIsDeleted(adId, ACTIVE, NOT_DELETED)
             .orElseThrow(AdNotFoundException::new);
 
         if (user.getId().equals(advertisement.getUser().getId())) {
@@ -62,13 +68,20 @@ public class DealServiceImpl implements DealService {
     public DealResponse makeDeal(UUID dealId) {
         //check access
 
-        Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
-
-        deal.setIsCompleted(true);
+        Deal deal = dealRepository.findByIdAndIsDeleted(dealId, NOT_DELETED)
+            .orElseThrow(DealNotFoundException::new);
 
         Advertisement advertisement = deal.getAdvertisement();
+
+        if (Objects.equals(advertisement.getIsActive(), Boolean.FALSE) ||
+                    Objects.equals(advertisement.getIsDeleted(), Boolean.TRUE)) {
+            throw new UserUnavailableOperationException("AD don't available anymore.");
+        }
+
         advertisement.setIsActive(false);
         adRepository.save(advertisement);
+
+        deal.setIsCompleted(true);
 
         return dealMapper.toResponse(
             dealRepository.save(deal)

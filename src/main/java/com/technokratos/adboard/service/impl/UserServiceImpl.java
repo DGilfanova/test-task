@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse createUser(CreateUserRequest newUserInfo) {
         User newUser = User.builder()
-            .email(newUserInfo.getEmail())
+            .email(newUserInfo.getEmail().toLowerCase())
             .password(
                 passwordEncoder.encode(newUserInfo.getPassword()))
             .role(newUserInfo.getRole())
