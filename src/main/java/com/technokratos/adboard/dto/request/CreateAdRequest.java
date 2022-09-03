@@ -1,7 +1,5 @@
 package com.technokratos.adboard.dto.request;
 
-import java.util.UUID;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -29,11 +27,6 @@ public class CreateAdRequest {
     @NotBlank(message = "{NotBlank}")
     @Size(min = 3, max = 1000, message = "{InvalidSizeDescription}")
     private String content;
-
-    @Schema(description = "User id")
-    @NotNull(message = "{NotBlank}")
-    //while we don't have security
-    private UUID userId;
 
     @Schema(description = "Status: ad is active or not")
     @NotNull(message = "{NotBlank}")

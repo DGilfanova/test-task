@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
-import com.technokratos.adboard.dto.request.CreateDealRequest;
 import com.technokratos.adboard.dto.request.FilterAdRequest;
 import com.technokratos.adboard.dto.response.AdResponse;
 import com.technokratos.adboard.dto.response.DealResponse;
@@ -27,7 +26,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
  */
 @Tag(name = "Advertisement controller", description = "advertisement operations")
 @RequestMapping("/api/v1/advertisement")
-public interface AdApi {
+public interface AdApi<PRINCIPAL> {
 
     @Operation(summary = "List of ads with filters")
     @ApiResponses(value = {
@@ -65,9 +64,8 @@ public interface AdApi {
                 schema = @Schema(implementation = ErrorResponse.class))
             })
     })
-    @PostMapping(value = "/{ad-id}/deal", consumes = APPLICATION_JSON_VALUE,
-        produces = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{ad-id}/deal", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     DealResponse createDeal(@Parameter(description = "ad id") @PathVariable("ad-id") UUID adId,
-        @RequestBody @Valid CreateDealRequest newDeal);
+        @Parameter(hidden = true) PRINCIPAL principal);
 }

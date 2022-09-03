@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+  <changeSet id="01-add-refresh-token-table" author="Diana">
+    <createTable tableName="refresh_token">
+      <column name="id" type="uuid">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="token" type="uuid"/>
+      <column name="expiry_date" type="timestamp"/>
+      <column name="user_id" type="uuid">
+        <constraints foreignKeyName="fk_user_id" references="users(id)"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+</databaseChangeLog>

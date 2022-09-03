@@ -7,14 +7,12 @@ import java.util.UUID;
 import com.technokratos.adboard.dto.response.DealResponse;
 import com.technokratos.adboard.exception.AdNotFoundException;
 import com.technokratos.adboard.exception.DealNotFoundException;
-import com.technokratos.adboard.exception.UserNotFoundException;
 import com.technokratos.adboard.exception.UserUnavailableOperationException;
 import com.technokratos.adboard.model.Advertisement;
 import com.technokratos.adboard.model.Deal;
 import com.technokratos.adboard.model.User;
 import com.technokratos.adboard.repository.AdRepository;
 import com.technokratos.adboard.repository.DealRepository;
-import com.technokratos.adboard.repository.UserRepository;
 import com.technokratos.adboard.service.DealService;
 import com.technokratos.adboard.utils.mapper.DealMapper;
 import lombok.RequiredArgsConstructor;
@@ -32,35 +30,31 @@ import static com.technokratos.adboard.constant.Constant.NOT_DELETED;
 public class DealServiceImpl implements DealService {
 
     private final DealRepository dealRepository;
-    private final UserRepository userRepository;
     private final AdRepository adRepository;
 
     private final DealMapper dealMapper;
 
     @Transactional
     @Override
-    public DealResponse createDeal(UUID adId, UUID userId) {
-        User user = userRepository.findByIdAndIsDeleted(userId, NOT_DELETED)
-            .orElseThrow(UserNotFoundException::new);
-
+    public DealResponse createDeal(UUID adId, User authUser) {
         Advertisement advertisement = adRepository
             .findByIdAndIsActiveAndIsDeleted(adId, ACTIVE, NOT_DELETED)
             .orElseThrow(AdNotFoundException::new);
 
         boolean isDealAlreadyExist = dealRepository
-            .findByUserIdAndAdvertisementId(user.getId(), advertisement.getId())
+            .findByUserIdAndAdvertisementId(authUser.getId(), advertisement.getId())
             .stream()
             .anyMatch((d) -> !d.getIsDeleted());
         if (isDealAlreadyExist) {
             throw new UserUnavailableOperationException("User already make deal");
         }
 
-        if (user.getId().equals(advertisement.getUser().getId())) {
+        if (authUser.getId().equals(advertisement.getUser().getId())) {
             throw new UserUnavailableOperationException("User can't make a deal with himself");
         }
 
         Deal newDeal = Deal.builder()
-            .user(user)
+            .user(authUser)
             .advertisement(advertisement)
             .created(Timestamp.valueOf(LocalDateTime.now()))
             .build();
@@ -72,11 +66,13 @@ public class DealServiceImpl implements DealService {
 
     @Transactional
     @Override
-    public DealResponse makeDeal(UUID dealId) {
-        //check access (user = seller)
-
+    public DealResponse makeDeal(UUID dealId, User authUser) {
         Deal deal = dealRepository.findByIdAndIsDeleted(dealId, NOT_DELETED)
             .orElseThrow(DealNotFoundException::new);
+
+        if (!deal.getAdvertisement().getUser().equals(authUser)) {
+            throw new UserUnavailableOperationException("User isn't ad's owner to make this deal");
+        }
 
         Advertisement advertisement = deal.getAdvertisement();
 
