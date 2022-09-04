@@ -25,7 +25,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RequiredArgsConstructor
-public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
+public class JwtTokenAuthorizationFilter extends OncePerRequestFilter {
 
     private final ObjectMapper objectMapper;
     private final JwtTokenService jwtTokenService;

@@ -1,7 +1,7 @@
 package com.technokratos.adboard.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.technokratos.adboard.security.filter.JwtTokenAuthenticationFilter;
+import com.technokratos.adboard.security.filter.JwtTokenAuthorizationFilter;
 import com.technokratos.adboard.security.provider.JwtTokenProvider;
 import com.technokratos.adboard.service.JwtTokenService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +28,7 @@ public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
     };
 
     private static final String[] IGNORE = {
+            "/chat/**",
             "/v3/api-docs/**",
             "/swagger-ui/**"
     };
@@ -71,7 +72,7 @@ public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter() {
-        return new JwtTokenAuthenticationFilter(objectMapper(), jwtTokenService, jwtTokenProvider);
+    public JwtTokenAuthorizationFilter jwtTokenAuthenticationFilter() {
+        return new JwtTokenAuthorizationFilter(objectMapper(), jwtTokenService, jwtTokenProvider);
     }
 }

@@ -38,6 +38,10 @@ public interface UserApi<PRINCIPAL> {
         @ApiResponse(responseCode = "404", description = "Required entity not found",
             content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = ErrorResponse.class))
+            }),
+        @ApiResponse(responseCode = "401", description = "Invalid auth token",
+            content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class))
             })
     })
     @PostMapping(value = "/ad", consumes = MULTIPART_FORM_DATA_VALUE,
@@ -52,6 +56,10 @@ public interface UserApi<PRINCIPAL> {
                 schema = @Schema(implementation = AdResponse.class))
             }),
         @ApiResponse(responseCode = "404", description = "Ad not found",
+            content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class))
+            }),
+        @ApiResponse(responseCode = "401", description = "Invalid auth token",
             content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = ErrorResponse.class))
             })
@@ -69,6 +77,10 @@ public interface UserApi<PRINCIPAL> {
                 schema = @Schema(implementation = DealResponse.class))
             }),
         @ApiResponse(responseCode = "404", description = "Deal not found",
+            content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class))
+            }),
+        @ApiResponse(responseCode = "401", description = "Invalid auth token",
             content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = ErrorResponse.class))
             })

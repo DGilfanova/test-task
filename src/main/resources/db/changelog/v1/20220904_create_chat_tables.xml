@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+  <changeSet id="01-create-table-chat" author="Diana">
+    <createTable tableName="chat">
+      <column name="id" type="uuid">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="first_user_id" type="uuid">
+        <constraints foreignKeyName="first_user_chat_id" references="users(id)"/>
+      </column>
+      <column name="second_user_id" type="uuid">
+        <constraints foreignKeyName="second_user_chat_id" references="users(id)"/>
+      </column>
+      <column name="created" type="timestamp"/>
+      <column name="is_deleted" type="boolean" defaultValue="false"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="02-create-table-chat-message" author="Diana">
+    <createTable tableName="chat_message">
+      <column name="id" type="uuid">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="sender_id" type="uuid">
+        <constraints foreignKeyName="sender_cm_id" references="users(id)"/>
+      </column>
+      <column name="chat_id" type="uuid">
+        <constraints foreignKeyName="chat_cm_id" references="chat(id)"/>
+      </column>
+      <column name="status" type="varchar"/>
+      <column name="created" type="timestamp"/>
+    </createTable>
+  </changeSet>
+
+</databaseChangeLog>

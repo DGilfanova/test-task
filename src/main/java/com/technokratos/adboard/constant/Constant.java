@@ -14,4 +14,8 @@ public class Constant {
 
     public final static String BEARER = "Bearer ";
     public final static String ROLE = "ROLE";
+
+    public final static int MESSAGE_PART_START_INDEX = 0;
+    public final static int MESSAGE_PART_END_INDEX = 10;
+    public final static String  MESSAGE_PART_END = "...";
 }

@@ -38,7 +38,7 @@ public class SecurityServiceImpl implements SecurityService {
                 .filter(u -> passwordEncoder.matches(signInRequest.getPassword(), u.getPassword()));
 
         if (optionalUser.isEmpty()) {
-            log.warn("Failed to log in user with username {}" + signInRequest.getEmail());
+            log.info("Failed to log in user with username {}" + signInRequest.getEmail());
 
             throw new UserAuthenticationException("Failed to log in user with username"
                                                   + signInRequest.getEmail());

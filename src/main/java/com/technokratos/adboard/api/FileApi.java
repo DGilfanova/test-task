@@ -30,6 +30,10 @@ public interface FileApi {
         @ApiResponse(responseCode = "404", description = "File not found",
             content = {@Content(mediaType = "application/json",
                 schema = @Schema(implementation = ErrorResponse.class))
+            }),
+        @ApiResponse(responseCode = "401", description = "Invalid auth token",
+            content = {@Content(mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class))
             })
     })
     @GetMapping("/{file-id}")
