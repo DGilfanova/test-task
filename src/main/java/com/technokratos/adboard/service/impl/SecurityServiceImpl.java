@@ -40,7 +40,7 @@ public class SecurityServiceImpl implements SecurityService {
         if (optionalUser.isEmpty()) {
             log.info("Failed to log in user with username {}" + signInRequest.getEmail());
 
-            throw new UserAuthenticationException("Failed to log in user with username"
+            throw new UserAuthenticationException("Failed to log in user with username: "
                                                   + signInRequest.getEmail());
         }
 
