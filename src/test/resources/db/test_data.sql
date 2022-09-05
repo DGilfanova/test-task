@@ -27,5 +27,9 @@ insert into ad_photo values ('f94e6c06-2ad6-4587-9860-1f65ed307d30', 'f94e6c06-2
 
 ---
 
-insert into deal values ('f94e6c06-2ad6-4587-9860-1f65ed307d40', 'f94e6c06-2ad6-4587-9860-1f65ed307d32')
+insert into deal (id, ad_id, user_id) values ('475e40e8-c396-4bb2-b841-7365cafbaa7a',
+             'f94e6c06-2ad6-4587-9860-1f65ed307d32', 'f94e6c06-2ad6-4587-9860-1f65ed307d40');
+
+insert into deal (id, ad_id, user_id) values ('475e40e8-c396-4bb2-b841-7365cafbaa7b',
+            'f94e6c06-2ad6-4587-9860-1f65ed307d30', 'f94e6c06-2ad6-4587-9860-1f65ed307d40');
 
