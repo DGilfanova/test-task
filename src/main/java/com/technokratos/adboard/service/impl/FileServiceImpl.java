@@ -39,16 +39,16 @@ public class FileServiceImpl implements FileService {
 
     @Transactional
     @Override
-    public Set<File> uploadFiles(MultipartFile[] files, FileType filesType) {
-        Set<File> fileIds = new HashSet<>();
+    public Set<File> uploadFiles(MultipartFile[] multipartFiles, FileType filesType) {
+        Set<File> files = new HashSet<>();
 
-        if (Objects.nonNull(files)) {
-            for (MultipartFile file: files) {
-                fileIds.add(uploadFile(file, filesType));
+        if (Objects.nonNull(multipartFiles)) {
+            for (MultipartFile file: multipartFiles) {
+                files.add(uploadFile(file, filesType));
             }
         }
 
-        return fileIds;
+        return files;
     }
 
     @Transactional

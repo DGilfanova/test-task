@@ -30,7 +30,6 @@ public class TestMinioContainer {
     public static class PropertiesInitializer implements
         ApplicationContextInitializer<ConfigurableApplicationContext> {
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            System.out.println(minioContainer.getFirstMappedPort());
             TestPropertyValues
                 .of(String.format("minio.url=http://%s:%s",
                         minioContainer.getHost(), minioContainer.getFirstMappedPort()),
