@@ -44,6 +44,9 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     @Transactional
     @Override
     public RefreshToken addRefreshToken(UserResponse userResponse) {
+        refreshTokenRepository.findByUserId(userResponse.getId()).ifPresent(
+            refreshToken -> refreshTokenRepository.removeById(refreshToken.getId()));
+
         return refreshTokenRepository.save(
                 RefreshToken.builder()
                         .token(UUID.randomUUID())
