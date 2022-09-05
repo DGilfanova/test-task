@@ -22,8 +22,11 @@ public class TestConstant {
     public final static String DEAL_ID = "475e40e8-c396-4bb2-b841-7365cafbaa7a";
     public final static String NOT_USER_DEAL_ID = "475e40e8-c396-4bb2-b841-7365cafbaa7b";
 
+    public final static String CHAT_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d50";
+    public final static String SECOND_CHAT_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d51";
+
     public final static String NEW_USER_EMAIL = "new.user@mail.ru";
-    public final static String REPEAT_USER_EMAIL = "repeat.user@mail.ru";
+    public final static String REPEAT_USER_EMAIL = "repeat@mail.ru";
     public final static String USER_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d40";
     public final static User USER = User.builder()
         .id(UUID.fromString(USER_ID))
@@ -34,4 +37,7 @@ public class TestConstant {
 
     public final static Boolean ACTIVE = true;
     public final static Boolean NOT_ACTIVE = false;
+
+    public final static String INVALID_REFRESH_TOKEN = "f94e6c06-2ad6-4587-9860-1f65ed307d40";
+    public final static String EXPIRED_REFRESH_TOKEN = "f94e6c06-2ad6-4587-9860-1f65ed307d11";
 }
