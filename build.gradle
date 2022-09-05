@@ -12,6 +12,8 @@ ext {
     mapstructVersion = '1.5.2.Final'
     minioVersion = '7.1.2'
     jwtVersion = '0.9.1'
+    testContainersVersion = '1.17.3'
+    securityMessagingVersion = '5.7.3'
 }
 
 jar.enabled = false
@@ -36,7 +38,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation "org.springframework.boot:spring-boot-starter-validation"
     implementation "org.springframework.boot:spring-boot-starter-websocket"
-    implementation 'org.springframework.security:spring-security-messaging:5.7.3'
+    implementation "org.springframework.security:spring-security-messaging:${securityMessagingVersion}"
     implementation "io.jsonwebtoken:jjwt:${jwtVersion}"
     implementation "org.springdoc:springdoc-openapi-ui:${swaggerVersion}"
     implementation "org.liquibase:liquibase-core:${liquibaseVersion}"
@@ -49,10 +51,19 @@ dependencies {
 
     annotationProcessor "org.projectlombok:lombok"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    annotationProcessor "org.hibernate:hibernate-jpamodelgen"
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.testcontainers:postgresql:${testContainersVersion}"
+    testImplementation "org.testcontainers:junit-jupiter:${testContainersVersion}"
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+sourceSets.main.java.srcDirs += "${buildDir}/generated"
+
+compileJava {
+    options.annotationProcessorGeneratedSourcesDirectory = file("${buildDir}/generated")
 }

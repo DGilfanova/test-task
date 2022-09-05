@@ -69,7 +69,7 @@ public interface AdApi<PRINCIPAL> {
             })
     })
     @PostMapping(value = "/{ad-id}/deal", produces = APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     DealResponse createDeal(@Parameter(description = "ad id") @PathVariable("ad-id") UUID adId,
         @Parameter(hidden = true) PRINCIPAL principal);
 }

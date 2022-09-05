@@ -1,11 +1,10 @@
 package com.technokratos.adboard.dto.request;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,8 +34,7 @@ public class FilterAdRequest {
     private String email;
 
     @Schema(description = "Date after which the ads were created")
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
-    private LocalDateTime dateAfter;
+    private Timestamp dateAfter;
 
     @Schema(description = "Min count of photo")
     @Min(value = 0, message = "{PositiveValue}")
