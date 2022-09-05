@@ -21,7 +21,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 /**
  * @author d.gilfanova
  */
-@Tag(name = "Auth Controller", description = "auth operations")
+@Tag(name = "Registration Controller", description = "auth operations")
 @RequestMapping("/api/v1")
 public interface RegistrationApi {
 

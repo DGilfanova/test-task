@@ -8,6 +8,6 @@ import org.springframework.http.HttpStatus;
 public class UserUnavailableOperationException extends BaseException {
 
     public UserUnavailableOperationException(String message) {
-        super(message, HttpStatus.FORBIDDEN);
+        super(message, HttpStatus.BAD_REQUEST);
     }
 }
