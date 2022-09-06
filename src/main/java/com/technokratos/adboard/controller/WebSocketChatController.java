@@ -5,13 +5,13 @@ import javax.validation.Valid;
 
 import com.technokratos.adboard.dto.request.ChatMessageRequest;
 import com.technokratos.adboard.model.ChatMessage;
-import com.technokratos.adboard.security.details.UserDetailsImpl;
+import com.technokratos.adboard.model.User;
 import com.technokratos.adboard.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -27,9 +27,9 @@ public class WebSocketChatController {
 
     @MessageMapping("/chat")
     public void processMessage(@Payload @Valid ChatMessageRequest chatMessageRequest,
-        @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Principal principal) {
         ChatMessage savedMessage = chatService.saveChatMessage(chatMessageRequest,
-            userDetails.getUser());
+            ((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()));
 
         messagingTemplate.convertAndSendToUser(
             chatMessageRequest.getRecipientId().toString(),"/messages/queue",

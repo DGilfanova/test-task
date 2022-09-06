@@ -18,8 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static com.technokratos.adboard.constant.TestConstant.EXPIRED_REFRESH_TOKEN;
 import static com.technokratos.adboard.constant.TestConstant.INVALID_REFRESH_TOKEN;
 import static com.technokratos.adboard.constant.TestConstant.NEW_USER_EMAIL;
-import static com.technokratos.adboard.constant.TestConstant.REPEAT_USER_EMAIL;
-import static com.technokratos.adboard.constant.TestConstant.USER;
+import static com.technokratos.adboard.constant.TestConstant.FIRST_USER;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -49,8 +48,8 @@ public class AuthApiTest {
         mockMvc.perform(post("/api/v1/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
-                         "\"email\": \"" + REPEAT_USER_EMAIL + "\", \n" +
-                         "\"password\": \"" + USER.getPassword() + "\" \n" +
+                         "\"email\": \"" + FIRST_USER.getEmail() + "\", \n" +
+                         "\"password\": \"" + FIRST_USER.getPassword() + "\" \n" +
                          "}"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.accessToken", notNullValue()))
@@ -63,7 +62,7 @@ public class AuthApiTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
                          "\"email\": \"" + NEW_USER_EMAIL + "\", \n" +
-                         "\"password\": \"" + USER.getPassword() + "\" \n" +
+                         "\"password\": \"" + FIRST_USER.getPassword() + "\" \n" +
                          "}"))
             .andExpect(status().isUnauthorized());
     }
@@ -71,9 +70,9 @@ public class AuthApiTest {
     @Test
     public void refresh_token_successfully() throws Exception {
         RefreshToken refreshToken = jwtTokenService.addRefreshToken(UserResponse.builder()
-            .id(USER.getId())
-            .email(USER.getEmail())
-            .role(USER.getRole())
+            .id(FIRST_USER.getId())
+            .email(FIRST_USER.getEmail())
+            .role(FIRST_USER.getRole())
             .build());
 
         mockMvc.perform(post("/api/v1/token/refresh")

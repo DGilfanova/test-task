@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Refresh token form")
 public class RefreshTokenRequest {
 
-    @Schema(name = "Expired refresh token")
+    @Schema(description = "Refresh token")
     @NotNull(message = "{NotBlank}")
     private UUID refreshToken;
 }

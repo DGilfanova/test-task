@@ -9,7 +9,7 @@ import io.jsonwebtoken.Claims;
 public interface JwtTokenProvider {
     String generateAccessToken(String username, Map<String, Object> data);
     boolean validateAccessToken(String accessToken);
-    RefreshToken verifyRefreshToken(UUID refreshToken);
+    RefreshToken getValidatedRefreshToken(UUID refreshToken);
     String getTokenFromHeader(String headerToken);
     Claims parseAccessToken(String accessToken);
 }

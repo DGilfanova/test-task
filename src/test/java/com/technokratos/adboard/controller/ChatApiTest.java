@@ -15,9 +15,9 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.technokratos.adboard.constant.Constant.BEARER;
-import static com.technokratos.adboard.constant.TestConstant.CHAT_ID;
+import static com.technokratos.adboard.constant.TestConstant.FIRST_CHAT_ID;
 import static com.technokratos.adboard.constant.TestConstant.SECOND_CHAT_ID;
-import static com.technokratos.adboard.constant.TestConstant.USER;
+import static com.technokratos.adboard.constant.TestConstant.FIRST_USER;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -48,16 +48,16 @@ public class ChatApiTest {
     public void get_user_chat_count_successfully() throws Exception {
         mockMvc.perform(get("/api/v1/chat")
             .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
-                USER.getEmail(), Collections.singletonMap("ROLE", USER.getRole())))))
+                FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole())))))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(1)));
     }
 
     @Test
     public void get_chat_messages_successfully() throws Exception {
-        mockMvc.perform(get("/api/v1/chat/" + CHAT_ID + "/message")
+        mockMvc.perform(get("/api/v1/chat/" + FIRST_CHAT_ID + "/message")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
-                    USER.getEmail(), Collections.singletonMap("ROLE", USER.getRole())))))
+                    FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole())))))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(3)));
     }
@@ -66,15 +66,15 @@ public class ChatApiTest {
     public void get_400_when_get_messages_not_from_own_chat() throws Exception {
         mockMvc.perform(get("/api/v1/chat/" + SECOND_CHAT_ID + "/message")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
-                    USER.getEmail(), Collections.singletonMap("ROLE", USER.getRole())))))
+                    FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole())))))
             .andExpect(status().isBadRequest());
     }
 
     @Test
     public void get_chat_new_messages_count_successfully() throws Exception {
-        mockMvc.perform(get("/api/v1/chat/" + CHAT_ID + "/message/count")
+        mockMvc.perform(get("/api/v1/chat/" + FIRST_CHAT_ID + "/message/count")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
-                    USER.getEmail(), Collections.singletonMap("ROLE", USER.getRole())))))
+                    FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole())))))
             .andExpect(status().isOk())
             .andExpect(content().string("2"));
     }

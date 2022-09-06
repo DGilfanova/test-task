@@ -28,9 +28,6 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     @Value("${jwt.expiration.access.mills}")
     private long expirationAccessInMills;
 
-    @Value("${jwt.expiration.refresh.mills}")
-    private long expirationRefreshInMills;
-
     @Value("${jwt.secretKey}")
     private String jwtSecret;
 
@@ -64,23 +61,15 @@ public class JwtTokenProviderImpl implements JwtTokenProvider {
     }
 
     @Override
-    public RefreshToken verifyRefreshToken(UUID refreshToken) {
+    public RefreshToken getValidatedRefreshToken(UUID refreshToken) {
         return refreshTokenRepository.findByToken(refreshToken).map(token -> {
-
-                    refreshTokenRepository.removeByToken(token.getToken());
 
                     if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
                         log.warn("Refresh token is expired");
 
                         throw new RefreshTokenException("Refresh token time expired");
                     }
-
-                    return refreshTokenRepository.save(
-                            RefreshToken.builder()
-                                    .token(UUID.randomUUID())
-                                    .expiryDate(Instant.now().plusMillis(expirationRefreshInMills))
-                                    .user(token.getUser())
-                                    .build());
+                    return token;
                 }).orElseThrow(() -> new RefreshTokenException("Refresh token not found"));
     }
 

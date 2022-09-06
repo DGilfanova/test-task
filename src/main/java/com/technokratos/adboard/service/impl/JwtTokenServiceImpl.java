@@ -61,7 +61,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     public JwtResponse refreshAccessToken(RefreshTokenRequest refreshTokenRequest) {
 
         RefreshToken verifiedRefreshToken =
-            jwtTokenProvider.verifyRefreshToken(refreshTokenRequest.getRefreshToken());
+            jwtTokenProvider.getValidatedRefreshToken(refreshTokenRequest.getRefreshToken());
 
         String accessToken = jwtTokenProvider.generateAccessToken(verifiedRefreshToken.getUser().getEmail(),
                 Collections.singletonMap(ROLE, verifiedRefreshToken.getUser().getRole().name()));
