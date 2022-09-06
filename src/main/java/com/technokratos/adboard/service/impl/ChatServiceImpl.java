@@ -47,8 +47,8 @@ public class ChatServiceImpl implements ChatService {
     private final ChatMessageMapper chatMessageMapper;
     private final ChatMapper chatMapper;
 
-    @Transactional
     @Override
+    @Transactional
     public ChatMessage saveChatMessage(ChatMessageRequest messageRequest, User authUser) {
          User recipient = userRepository.findByIdAndIsDeleted(messageRequest.getRecipientId(), NOT_DELETED)
             .orElseThrow(UserNotFoundException::new);
@@ -91,14 +91,15 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    @Transactional
     public List<ChatResponse> getUserChats(User authUser) {
         return chatMapper.toResponseList(
             chatRepository.findAllByUserAndIsDeleted(NOT_DELETED, authUser.getId())
         );
     }
 
-    @Transactional
     @Override
+    @Transactional
     public List<ChatMessageResponse> getChatMessages(UUID chatId, User authUser) {
         Chat chat = chatRepository.findByIdAndIsDeleted(chatId, NOT_DELETED)
             .orElseThrow(ChatNotFoundException::new);

@@ -32,8 +32,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
-    @Transactional
     @Override
+    @Transactional
     public UserResponse createUser(CreateUserRequest newUserInfo) {
         if (userRepository.findByEmailAndIsDeleted(newUserInfo.getEmail().toLowerCase(), NOT_DELETED)
             .isPresent()) {

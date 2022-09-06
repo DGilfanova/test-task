@@ -41,8 +41,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
     private final UserRepository userRepository;
 
-    @Transactional
     @Override
+    @Transactional
     public RefreshToken addRefreshToken(UserResponse userResponse) {
         refreshTokenRepository.findByUserId(userResponse.getId()).ifPresent(
             refreshToken -> refreshTokenRepository.removeById(refreshToken.getId()));
@@ -56,8 +56,8 @@ public class JwtTokenServiceImpl implements JwtTokenService {
                         .build());
     }
 
-    @Transactional
     @Override
+    @Transactional
     public JwtResponse refreshAccessToken(RefreshTokenRequest refreshTokenRequest) {
 
         RefreshToken verifiedRefreshToken =
@@ -73,6 +73,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
+    @Transactional
     public JwtResponse generateTokenPair(UserResponse userResponse) {
 
         String accessToken = jwtTokenProvider.generateAccessToken(userResponse.getEmail(),
@@ -87,6 +88,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
     }
 
     @Override
+    @Transactional
     public User getUserByToken(String token) {
         try {
             Claims claims = jwtTokenProvider.parseAccessToken(token);
