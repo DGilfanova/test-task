@@ -12,12 +12,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MultiValueMap;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -37,10 +35,12 @@ public class AuthorizationInterceptor implements ChannelInterceptor {
         StompHeaderAccessor accessor =
             MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
-        if (StompCommand.CONNECT.equals(Objects.requireNonNull(accessor).getCommand())) {
-            MultiValueMap<String, String> nativeHeaders = accessor
+        MultiValueMap<String, String> nativeHeaders = accessor
                 .getMessageHeaders()
                 .get(StompHeaderAccessor.NATIVE_HEADERS, MultiValueMap.class);
+
+        if (Objects.nonNull(nativeHeaders)
+            && Objects.nonNull(nativeHeaders.get(AUTHORIZATION))) {
 
             List<String> authHeaders = nativeHeaders.get(AUTHORIZATION);
 
@@ -56,17 +56,18 @@ public class AuthorizationInterceptor implements ChannelInterceptor {
                 );
 
                 UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(principal, null,
+                    new UsernamePasswordAuthenticationToken(principal.getUser(), null,
                         principal.getAuthorities());
-
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
                 accessor.setUser(authenticationToken);
             } else {
-                log.info("Authorization websocket header is missing");
+                accessor.setUser(null);
 
+                log.info("Authorization websocket header is missing");
                 throw new AuthenticationHeaderException("Authorization websocket header is missing");
             }
+        } else {
+            accessor.setUser(null);
         }
 
         return message;

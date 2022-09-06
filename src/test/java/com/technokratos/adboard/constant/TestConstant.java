@@ -10,34 +10,37 @@ import com.technokratos.adboard.model.User;
  */
 public class TestConstant {
 
-    public final static String AD_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d30";
-    public final static String USER_AD_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d31";
-    public final static String DEAL_AD_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d32";
+    public final static String FIRST_AD_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d31";
+    public final static String SECOND_AD_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d32";
+    public final static String THIRD_AD_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d33";
     public final static String NON_EXIST_AD_ID = "f94e6c06-2ad6-4587-9860-1f65ed307111";
-    public final static String SPECIAL_AD_TITLE = "special ad";
-    public final static String TIMESTAMP = "2022-09-04T04:00:33.397Z";
-    public final static String NEW_TITLE = "New ad";
-    public final static String NEW_CONTENT = "Good ad";
 
-    public final static String DEAL_ID = "475e40e8-c396-4bb2-b841-7365cafbaa7a";
-    public final static String NOT_USER_DEAL_ID = "475e40e8-c396-4bb2-b841-7365cafbaa7b";
+    public final static String FIRST_AD_TITLE = "ad1";
 
-    public final static String CHAT_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d50";
-    public final static String SECOND_CHAT_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d51";
+    public final static String NEW_AD_TITLE = "New ad";
+    public final static String NEW_AD_CONTENT = "New ad content";
+
+    public final static String FIRST_DEAL_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d11";
+    public final static String SECOND_DEAL_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d12";
+
+    public final static String FIRST_CHAT_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d51";
+    public final static String SECOND_CHAT_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d52";
 
     public final static String NEW_USER_EMAIL = "new.user@mail.ru";
-    public final static String REPEAT_USER_EMAIL = "repeat@mail.ru";
-    public final static String USER_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d40";
-    public final static User USER = User.builder()
-        .id(UUID.fromString(USER_ID))
-        .email("user@mail.ru")
+    public final static String FIRST_USER_EMAIL = "user1@mail.ru";
+    public final static String SECOND_USER_EMAIL = "user2@mail.ru";
+    public final static String FIRST_USER_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d41";
+    public final static User FIRST_USER = User.builder()
+        .id(UUID.fromString(FIRST_USER_ID))
+        .email(FIRST_USER_EMAIL)
         .password("Abc123++")
         .role(Role.USER)
         .build();
 
     public final static Boolean ACTIVE = true;
     public final static Boolean NOT_ACTIVE = false;
+    public final static String TIMESTAMP = "2022-09-04T04:00:33.397Z";
 
-    public final static String INVALID_REFRESH_TOKEN = "f94e6c06-2ad6-4587-9860-1f65ed307d40";
+    public final static String INVALID_REFRESH_TOKEN = "f94e6c06-2ad6-4587-9860-1f65ed307d12";
     public final static String EXPIRED_REFRESH_TOKEN = "f94e6c06-2ad6-4587-9860-1f65ed307d11";
 }

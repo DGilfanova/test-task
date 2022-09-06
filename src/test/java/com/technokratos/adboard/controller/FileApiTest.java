@@ -22,8 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.org.apache.commons.io.IOUtils;
 
 import static com.technokratos.adboard.constant.Constant.BEARER;
-import static com.technokratos.adboard.constant.TestConstant.REPEAT_USER_EMAIL;
-import static com.technokratos.adboard.constant.TestConstant.USER;
+import static com.technokratos.adboard.constant.TestConstant.FIRST_USER;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpHeaders.CONTENT_DISPOSITION;
 import static org.springframework.http.HttpHeaders.CONTENT_LENGTH;
@@ -66,7 +65,7 @@ public class FileApiTest {
 
         mockMvc.perform(get("/api/v1/file/" + file.getId())
             .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
-                REPEAT_USER_EMAIL, Collections.singletonMap("ROLE", USER.getRole()))))
+                FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole()))))
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(header().string(CONTENT_TYPE, Objects.requireNonNull(photo.getContentType())))

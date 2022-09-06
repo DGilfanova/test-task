@@ -16,7 +16,8 @@ public class WebSocketSecurityConfig
     @Override
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
-            .simpTypeMatchers(CONNECT).authenticated();
+            .simpTypeMatchers(CONNECT).authenticated()
+            .simpDestMatchers("/api/v1/app/**").authenticated();
     }
 
     @Override

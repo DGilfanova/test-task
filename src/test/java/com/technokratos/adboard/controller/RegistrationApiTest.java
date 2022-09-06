@@ -13,7 +13,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.technokratos.adboard.constant.TestConstant.NEW_USER_EMAIL;
-import static com.technokratos.adboard.constant.TestConstant.REPEAT_USER_EMAIL;
+import static com.technokratos.adboard.constant.TestConstant.FIRST_USER;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -66,7 +66,7 @@ public class RegistrationApiTest {
         mockMvc.perform(post("/api/v1/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
-                         "\"email\": \"" + REPEAT_USER_EMAIL + "\", \n" +
+                         "\"email\": \"" + FIRST_USER.getEmail() + "\", \n" +
                          "\"password\": \"123\", \n" +
                          "\"role\": \"USER\" \n" +
                          "}"))

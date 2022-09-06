@@ -19,16 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.shaded.org.apache.commons.io.IOUtils;
 
 import static com.technokratos.adboard.constant.Constant.BEARER;
-import static com.technokratos.adboard.constant.TestConstant.ACTIVE;
-import static com.technokratos.adboard.constant.TestConstant.NOT_ACTIVE;
-import static com.technokratos.adboard.constant.TestConstant.AD_ID;
-import static com.technokratos.adboard.constant.TestConstant.NEW_CONTENT;
-import static com.technokratos.adboard.constant.TestConstant.DEAL_ID;
-import static com.technokratos.adboard.constant.TestConstant.NEW_TITLE;
-import static com.technokratos.adboard.constant.TestConstant.NOT_USER_DEAL_ID;
-import static com.technokratos.adboard.constant.TestConstant.USER;
-import static com.technokratos.adboard.constant.TestConstant.USER_AD_ID;
-import static com.technokratos.adboard.constant.TestConstant.USER_ID;
+import static com.technokratos.adboard.constant.TestConstant.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -45,8 +36,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(initializers = {
     TestPostgresContainer.PropertiesInitializer.class,
     TestMinioContainer.PropertiesInitializer.class})
-@Sql(scripts = "/db/test_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(scripts = "/db/clean_test_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "/db/all_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "/db/clean_all_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class UserApiTest {
 
     @Autowired
@@ -65,25 +56,25 @@ public class UserApiTest {
 
         mockMvc.perform(multipart("/api/v1/user/ad")
                 .file(photo)
-                .param("title", NEW_TITLE)
-                .param("content", NEW_CONTENT)
+                .param("title", NEW_AD_TITLE)
+                .param("content", NEW_AD_CONTENT)
                 .param("isActive", ACTIVE.toString())
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
-                    USER.getEmail(), Collections.singletonMap("ROLE", USER.getRole())))))
+                    FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole())))))
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.id", notNullValue()))
-            .andExpect(jsonPath("$.title", is(NEW_TITLE)))
-            .andExpect(jsonPath("$.content", is(NEW_CONTENT)))
+            .andExpect(jsonPath("$.title", is(NEW_AD_TITLE)))
+            .andExpect(jsonPath("$.content", is(NEW_AD_CONTENT)))
             .andExpect(jsonPath("$.isActive", is(ACTIVE)))
-            .andExpect(jsonPath("$.user.id", is(USER_ID)))
+            .andExpect(jsonPath("$.user.id", is(FIRST_USER_ID)))
             .andExpect(jsonPath("$.photos[0].name", is("test-image.jpg")));
     }
 
     @Test
     public void update_ad_status_successfully() throws Exception {
-        mockMvc.perform(put("/api/v1/user/ad/" + USER_AD_ID + "/status")
+        mockMvc.perform(put("/api/v1/user/ad/" + SECOND_AD_ID + "/status")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
-                    USER.getEmail(), Collections.singletonMap("ROLE", USER.getRole()))))
+                    FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole()))))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
                          "\"isActive\": \"" + NOT_ACTIVE + "\" \n" +
@@ -94,9 +85,9 @@ public class UserApiTest {
 
     @Test
     public void get_400_when_update_status_of_non_own_ad() throws Exception {
-        mockMvc.perform(put("/api/v1/user/ad/" + AD_ID + "/status")
+        mockMvc.perform(put("/api/v1/user/ad/" + FIRST_AD_ID + "/status")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
-                    USER.getEmail(), Collections.singletonMap("ROLE", USER.getRole()))))
+                    FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole()))))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
                          "\"isActive\": \"" + NOT_ACTIVE + "\" \n" +
@@ -106,9 +97,10 @@ public class UserApiTest {
 
     @Test
     public void make_deal_successfully() throws Exception {
-        mockMvc.perform(put("/api/v1/user/deal/" + DEAL_ID + "/status")
+        mockMvc.perform(put("/api/v1/user/deal/" + FIRST_DEAL_ID + "/status")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
-                    USER.getEmail(), Collections.singletonMap("ROLE", USER.getRole()))))
+                    SECOND_USER_EMAIL
+                    , Collections.singletonMap("ROLE", FIRST_USER.getRole()))))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
                          "}"))
@@ -119,9 +111,9 @@ public class UserApiTest {
 
     @Test
     public void get_400_when_make_not_own_deal() throws Exception {
-        mockMvc.perform(put("/api/v1/user/deal/" + NOT_USER_DEAL_ID + "/status")
+        mockMvc.perform(put("/api/v1/user/deal/" + SECOND_DEAL_ID + "/status")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
-                    USER.getEmail(), Collections.singletonMap("ROLE", USER.getRole()))))
+                    FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole()))))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
                          "}"))
