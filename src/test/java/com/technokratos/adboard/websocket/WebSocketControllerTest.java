@@ -76,7 +76,7 @@ public class WebSocketControllerTest {
     }
 
     @Test
-    public void test_send_message_endpoint() throws InterruptedException, ExecutionException,
+    public void test_send_message_endpoint_successfully() throws InterruptedException, ExecutionException,
         TimeoutException {
         WebSocketStompClient stompClient = createStompClient();
 
