@@ -34,8 +34,8 @@ public class DealServiceImpl implements DealService {
 
     private final DealMapper dealMapper;
 
-    @Transactional
     @Override
+    @Transactional
     public DealResponse createDeal(UUID adId, User authUser) {
         Advertisement advertisement = adRepository
             .findByIdAndIsActiveAndIsDeleted(adId, ACTIVE, NOT_DELETED)
@@ -64,8 +64,8 @@ public class DealServiceImpl implements DealService {
         );
     }
 
-    @Transactional
     @Override
+    @Transactional
     public DealResponse makeDeal(UUID dealId, User authUser) {
         Deal deal = dealRepository.findByIdAndIsDeleted(dealId, NOT_DELETED)
             .orElseThrow(DealNotFoundException::new);

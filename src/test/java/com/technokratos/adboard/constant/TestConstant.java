@@ -30,6 +30,7 @@ public class TestConstant {
     public final static String FIRST_USER_EMAIL = "user1@mail.ru";
     public final static String SECOND_USER_EMAIL = "user2@mail.ru";
     public final static String FIRST_USER_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d41";
+    public final static String SECOND_USER_ID = "f94e6c06-2ad6-4587-9860-1f65ed307d42";
     public final static User FIRST_USER = User.builder()
         .id(UUID.fromString(FIRST_USER_ID))
         .email(FIRST_USER_EMAIL)

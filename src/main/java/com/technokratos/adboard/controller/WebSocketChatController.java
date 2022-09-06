@@ -14,6 +14,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 
+import static com.technokratos.adboard.constant.Constant.MESSAGE_DESTINATION;
+
 /**
  * @author d.gilfanova
  */
@@ -32,7 +34,7 @@ public class WebSocketChatController {
             ((User) ((UsernamePasswordAuthenticationToken) principal).getPrincipal()));
 
         messagingTemplate.convertAndSendToUser(
-            chatMessageRequest.getRecipientId().toString(),"/messages/queue",
+            chatMessageRequest.getRecipientId().toString(),MESSAGE_DESTINATION,
             chatService.createChatNotification(savedMessage));
     }
 }

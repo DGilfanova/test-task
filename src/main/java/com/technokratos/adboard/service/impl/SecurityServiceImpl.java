@@ -30,8 +30,8 @@ public class SecurityServiceImpl implements SecurityService {
 
     private final JwtTokenService jwtTokenService;
 
-    @Transactional
     @Override
+    @Transactional
     public JwtResponse login(SignInRequest signInRequest) {
         Optional<User> optionalUser =  userRepository.findByEmailAndIsDeleted(
             signInRequest.getEmail(), NOT_DELETED)

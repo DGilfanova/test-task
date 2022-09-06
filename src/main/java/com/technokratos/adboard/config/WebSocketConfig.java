@@ -22,6 +22,11 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import static com.technokratos.adboard.constant.Constant.DESTINATION_PREFIX;
+import static com.technokratos.adboard.constant.Constant.MESSAGE_CONTROLLER_ENDPOINT;
+import static com.technokratos.adboard.constant.Constant.SEND_MESSAGE_ENDPOINT;
+import static com.technokratos.adboard.constant.Constant.WEBSOCKET_ENDPOINT;
+
 /**
  * @author d.gilfanova
  */
@@ -44,16 +49,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
-            .addEndpoint("/chat")
+            .addEndpoint(WEBSOCKET_ENDPOINT)
             .setAllowedOrigins("*")
             .withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker( "/user");
-        config.setApplicationDestinationPrefixes("/api/v1/app");
-        config.setUserDestinationPrefix("/user");
+        config.enableSimpleBroker( DESTINATION_PREFIX);
+        config.setApplicationDestinationPrefixes(MESSAGE_CONTROLLER_ENDPOINT);
+        config.setUserDestinationPrefix(DESTINATION_PREFIX);
     }
 
     @Override

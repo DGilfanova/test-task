@@ -28,7 +28,7 @@ public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
     };
 
     private static final String[] IGNORE = {
-            "/chat/**",
+            "/ws/**",
             "/v3/api-docs/**",
             "/swagger-ui/**"
     };

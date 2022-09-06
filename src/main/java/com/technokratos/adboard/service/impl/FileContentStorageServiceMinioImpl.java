@@ -11,6 +11,7 @@ import com.technokratos.adboard.service.FileContentStorageService;
 import io.minio.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.technokratos.adboard.constant.Constant.MINIO_BUCKET_NAME;
 import static com.technokratos.adboard.constant.Constant.MINIO_DEFAULT_OBJECT_SIZE;
@@ -44,6 +45,7 @@ public class FileContentStorageServiceMinioImpl implements FileContentStorageSer
     }
 
     @Override
+    @Transactional
     public String saveFileContent(InputStream file, String fileName) {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -64,6 +66,7 @@ public class FileContentStorageServiceMinioImpl implements FileContentStorageSer
     }
 
     @Override
+    @Transactional
     public FileContent getFileContent(String id) {
         try {
             return FileContent.builder()

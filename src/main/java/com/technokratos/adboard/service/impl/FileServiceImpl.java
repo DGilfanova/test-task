@@ -37,8 +37,8 @@ public class FileServiceImpl implements FileService {
 
     private final FileContentStorageService fileContentStorageService;
 
-    @Transactional
     @Override
+    @Transactional
     public Set<File> uploadFiles(MultipartFile[] multipartFiles, FileType filesType) {
         Set<File> files = new HashSet<>();
 
@@ -51,8 +51,8 @@ public class FileServiceImpl implements FileService {
         return files;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public File uploadFile(MultipartFile file, FileType fileType) {
         try {
             File newFile = File.builder()
@@ -75,6 +75,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Resource> downloadFile(UUID id) {
         File file = fileRepository.findById(id).orElseThrow(FileNotFoundException::new);
 

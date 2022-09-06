@@ -42,6 +42,7 @@ public class AdServiceImpl implements AdService {
     private final AdSpecification adSpecification;
 
     @Override
+    @Transactional
     public List<AdResponse> getFilteredAds(FilterAdRequest filterAdRequest) {
         return adMapper.toListResponse(
             adRepository.findAll(adSpecification.getAdvertisements(filterAdRequest))
@@ -49,6 +50,7 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
+    @Transactional
     public AdResponse getAdById(UUID adId) {
         return adMapper.toResponse(
             adRepository.findByIdAndIsActiveAndIsDeleted(adId, ACTIVE, NOT_DELETED)
@@ -56,8 +58,8 @@ public class AdServiceImpl implements AdService {
         );
     }
 
-    @Transactional
     @Override
+    @Transactional
     public AdResponse createAd(CreateAdRequest newAd, User authUser) {
         Advertisement advertisement = Advertisement.builder()
             .title(newAd.getTitle())
@@ -75,8 +77,8 @@ public class AdServiceImpl implements AdService {
         );
     }
 
-    @Transactional
     @Override
+    @Transactional
     public AdResponse updateActiveStatus(UUID adId, UpdateAdStatusRequest adStatusRequest,
         User authUser) {
         Advertisement advertisement = adRepository.findByIdAndIsDeleted(adId, NOT_DELETED)
