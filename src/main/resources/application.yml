@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${datasource.url:jdbc:postgresql://localhost:5432/postgres}
+    username: ${datasource.username:sa}
+    password: ${datasource.password:123}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: none
+  liquibase:
+    change-log: classpath:db/changelog/changelog-master.xml
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+minio:
+  url: ${minio.storage.url:http://127.0.0.1:9000}
+  access-key: ${minio.storage.access-key:minioadmin}
+  secret-key: ${minio.storage.secret-key:minioadmin}
+
+jwt:
+  secretKey: ${jwt.secret.key:itsmykey777}
+  expiration.access.mills: 3600000
+  expiration.refresh.mills: 86400000

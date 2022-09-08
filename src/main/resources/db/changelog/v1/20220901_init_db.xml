@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+  <changeSet id="01-create-table-user" author="Diana">
+    <createTable tableName="users">
+      <column name="id" type="uuid">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="email" type="varchar"/>
+      <column name="password" type="varchar"/>
+      <column name="role" type="varchar"/>
+      <column name="created" type="timestamp"/>
+      <column name="updated" type="timestamp"/>
+      <column name="is_deleted" type="boolean" defaultValue="false"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="02-create-table-advertisement" author="Diana">
+    <createTable tableName="advertisement">
+      <column name="id" type="uuid">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="title" type="varchar"/>
+      <column name="content" type="varchar"/>
+      <column name="is_active" type="boolean"/>
+      <column name="created" type="timestamp"/>
+      <column name="updated" type="timestamp"/>
+      <column name="is_deleted" type="boolean" defaultValue="false"/>
+      <column name="user_id" type="uuid">
+        <constraints foreignKeyName="user_ad_id" references="users(id)"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="03-create-table-file" author="Diana">
+    <createTable tableName="file">
+      <column name="id" type="uuid">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="name" type="varchar"/>
+      <column name="content_type" type="varchar"/>
+      <column name="size" type="int"/>
+      <column name="file_type" type="varchar"/>
+      <column name="link" type="varchar"/>
+      <column name="created" type="timestamp"/>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="04-create-table-ad-photo" author="Diana">
+    <createTable tableName="ad_photo">
+      <column name="id" type="uuid">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="ad_id" type="uuid">
+        <constraints foreignKeyName="af_ad_id" references="advertisement(id)"/>
+      </column>
+      <column name="photo_id" type="uuid">
+        <constraints foreignKeyName="af_photo_id" references="file(id)"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="05-create-table-deal" author="Diana">
+    <createTable tableName="deal">
+      <column name="id" type="uuid">
+        <constraints nullable="false" primaryKey="true"/>
+      </column>
+      <column name="ad_id" type="uuid">
+        <constraints foreignKeyName="deal_ad_id" references="advertisement(id)"/>
+      </column>
+      <column name="user_id" type="uuid">
+        <constraints foreignKeyName="deal_user_id" references="users(id)"/>
+      </column>
+      <column name="created" type="timestamp"/>
+      <column name="is_deleted" type="boolean" defaultValue="false"/>
+      <column name="is_completed" type="boolean" defaultValue="false"/>
+    </createTable>
+  </changeSet>
+
+</databaseChangeLog>

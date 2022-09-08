@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: 'postgres:13'
+    container_name: 'postgres'
+    ports:
+      - "5432:5432"
+    environment:
+      - 'POSTGRES_USER=sa'
+      - 'POSTGRES_PASSWORD=123'
+    volumes:
+      - "db-data:/postgresql/data"
+
+  minio:
+    container_name: minio
+    image: minio/minio:latest
+    command: server --console-address ":9001" /data/
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    volumes:
+      - "minio-data:/minio/data"
+
+  app:
+    container_name: adboard
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - datasource.url=jdbc:postgresql://postgres:5432/postgres
+      - datasource.username=sa
+      - datasource.password=123
+      - minio.storage.url=http://minio:9000
+      - minio.storage.access-key=minioadmin
+      - minio.storage.secret-key=minioadmin123
+    image: 'adboard'
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - minio
+
+volumes:
+  db-data:
+  minio-data:
