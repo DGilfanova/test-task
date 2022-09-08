@@ -42,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     TestMinioContainer.PropertiesInitializer.class})
 @Sql(scripts = "/db/user_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/db/clean_user_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class FileApiTest {
+ class FileApiTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -54,7 +54,7 @@ public class FileApiTest {
     private FileService fileService;
 
     @Test
-    public void file_download_successfully() throws Exception {
+     void file_download_successfully() throws Exception {
         byte[] image = IOUtils.toByteArray(Objects.requireNonNull(getClass().getClassLoader()
             .getResourceAsStream("files/test-image.jpg")));
 

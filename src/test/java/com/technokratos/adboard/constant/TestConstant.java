@@ -41,6 +41,7 @@ public class TestConstant {
     public final static Boolean ACTIVE = true;
     public final static Boolean NOT_ACTIVE = false;
     public final static String TIMESTAMP = "2022-09-04T04:00:33.397Z";
+    public final static Integer TIMEOUT = 10;
 
     public final static String INVALID_REFRESH_TOKEN = "f94e6c06-2ad6-4587-9860-1f65ed307d12";
     public final static String EXPIRED_REFRESH_TOKEN = "f94e6c06-2ad6-4587-9860-1f65ed307d11";

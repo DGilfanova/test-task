@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     TestMinioContainer.PropertiesInitializer.class})
 @Sql(scripts = "/db/all_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/db/clean_all_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class UserApiTest {
+ class UserApiTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -47,7 +47,7 @@ public class UserApiTest {
     private JwtTokenProvider jwtTokenProvider;
 
     @Test
-    public void create_ad_successfully() throws Exception {
+     void create_ad_successfully() throws Exception {
         byte[] image = IOUtils.toByteArray(Objects.requireNonNull(getClass().getClassLoader()
             .getResourceAsStream("files/test-image.jpg")));
 
@@ -71,7 +71,7 @@ public class UserApiTest {
     }
 
     @Test
-    public void update_ad_status_successfully() throws Exception {
+     void update_ad_status_successfully() throws Exception {
         mockMvc.perform(put("/api/v1/user/ad/" + SECOND_AD_ID + "/status")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
                     FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole()))))
@@ -84,7 +84,7 @@ public class UserApiTest {
     }
 
     @Test
-    public void get_400_when_update_status_of_non_own_ad() throws Exception {
+     void get_400_when_update_status_of_non_own_ad() throws Exception {
         mockMvc.perform(put("/api/v1/user/ad/" + FIRST_AD_ID + "/status")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
                     FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole()))))
@@ -96,7 +96,7 @@ public class UserApiTest {
     }
 
     @Test
-    public void make_deal_successfully() throws Exception {
+     void make_deal_successfully() throws Exception {
         mockMvc.perform(put("/api/v1/user/deal/" + FIRST_DEAL_ID + "/status")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
                     SECOND_USER_EMAIL
@@ -110,7 +110,7 @@ public class UserApiTest {
     }
 
     @Test
-    public void get_400_when_make_not_own_deal() throws Exception {
+     void get_400_when_make_not_own_deal() throws Exception {
         mockMvc.perform(put("/api/v1/user/deal/" + SECOND_DEAL_ID + "/status")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
                     FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole()))))

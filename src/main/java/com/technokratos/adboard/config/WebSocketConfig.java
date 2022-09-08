@@ -24,7 +24,6 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 import static com.technokratos.adboard.constant.Constant.DESTINATION_PREFIX;
 import static com.technokratos.adboard.constant.Constant.MESSAGE_CONTROLLER_ENDPOINT;
-import static com.technokratos.adboard.constant.Constant.SEND_MESSAGE_ENDPOINT;
 import static com.technokratos.adboard.constant.Constant.WEBSOCKET_ENDPOINT;
 
 /**
