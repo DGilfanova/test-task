@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     TestMinioContainer.PropertiesInitializer.class})
 @Sql(scripts = "/db/chat_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/db/clean_chat_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class ChatApiTest {
+ class ChatApiTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -45,7 +45,7 @@ public class ChatApiTest {
     private JwtTokenProvider jwtTokenProvider;
 
     @Test
-    public void get_user_chat_count_successfully() throws Exception {
+     void get_user_chat_count_successfully() throws Exception {
         mockMvc.perform(get("/api/v1/chat")
             .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
                 FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole())))))
@@ -54,7 +54,7 @@ public class ChatApiTest {
     }
 
     @Test
-    public void get_chat_messages_successfully() throws Exception {
+     void get_chat_messages_successfully() throws Exception {
         mockMvc.perform(get("/api/v1/chat/" + FIRST_CHAT_ID + "/message")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
                     FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole())))))
@@ -63,7 +63,7 @@ public class ChatApiTest {
     }
 
     @Test
-    public void get_400_when_get_messages_not_from_own_chat() throws Exception {
+     void get_400_when_get_messages_not_from_own_chat() throws Exception {
         mockMvc.perform(get("/api/v1/chat/" + SECOND_CHAT_ID + "/message")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
                     FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole())))))
@@ -71,7 +71,7 @@ public class ChatApiTest {
     }
 
     @Test
-    public void get_chat_new_messages_count_successfully() throws Exception {
+     void get_chat_new_messages_count_successfully() throws Exception {
         mockMvc.perform(get("/api/v1/chat/" + FIRST_CHAT_ID + "/message/count")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
                     FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole())))))

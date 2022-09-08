@@ -1,7 +1,5 @@
 package com.technokratos.adboard.constant;
 
-import javax.swing.plaf.PanelUI;
-
 /**
  * @author d.gilfanova
  */

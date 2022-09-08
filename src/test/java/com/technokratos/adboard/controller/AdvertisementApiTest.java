@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     TestMinioContainer.PropertiesInitializer.class})
 @Sql(scripts = "/db/all_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/db/clean_all_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class AdvertisementApiTest {
+class AdvertisementApiTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -42,7 +42,7 @@ public class AdvertisementApiTest {
     private JwtTokenProvider jwtTokenProvider;
 
     @Test
-    public void get_ad_count_successfully() throws Exception {
+     void get_ad_count_successfully() throws Exception {
         mockMvc.perform(post("/api/v1/advertisement")
             .contentType(MediaType.APPLICATION_JSON)
             .content("{ \n" +
@@ -52,7 +52,7 @@ public class AdvertisementApiTest {
     }
 
     @Test
-    public void get_filtered_ad_by_date_successfully() throws Exception {
+     void get_filtered_ad_by_date_successfully() throws Exception {
         mockMvc.perform(post("/api/v1/advertisement")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
@@ -64,7 +64,7 @@ public class AdvertisementApiTest {
     }
 
     @Test
-    public void get_filtered_ad_by_user_email_successfully() throws Exception {
+     void get_filtered_ad_by_user_email_successfully() throws Exception {
         mockMvc.perform(post("/api/v1/advertisement")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
@@ -76,7 +76,7 @@ public class AdvertisementApiTest {
     }
 
     @Test
-    public void get_filtered_ad_by_min_photo_count_successfully() throws Exception {
+     void get_filtered_ad_by_min_photo_count_successfully() throws Exception {
         mockMvc.perform(post("/api/v1/advertisement")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
@@ -88,20 +88,20 @@ public class AdvertisementApiTest {
     }
 
     @Test
-    public void get_ad_by_id_successfully() throws Exception {
+     void get_ad_by_id_successfully() throws Exception {
         mockMvc.perform(get("/api/v1/advertisement/" + FIRST_AD_ID))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.title", is(FIRST_AD_TITLE)));
     }
 
     @Test
-    public void get_404_when_get_non_exist_ad_() throws Exception {
+     void get_404_when_get_non_exist_ad_() throws Exception {
         mockMvc.perform(get("/api/v1/advertisement/" + NON_EXIST_AD_ID))
             .andExpect(status().isNotFound());
     }
 
     @Test
-    public void create_deal_successfully() throws Exception {
+     void create_deal_successfully() throws Exception {
         mockMvc.perform(post("/api/v1/advertisement/" + FIRST_AD_ID + "/deal")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
                     FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole()))))
@@ -113,7 +113,7 @@ public class AdvertisementApiTest {
     }
 
     @Test
-    public void get_403_when_create_deal_without_token() throws Exception {
+     void get_403_when_create_deal_without_token() throws Exception {
         mockMvc.perform(post("/api/v1/advertisement/" + FIRST_AD_ID + "/deal")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
@@ -122,7 +122,7 @@ public class AdvertisementApiTest {
     }
 
     @Test
-    public void get_401_when_create_deal_with_invalid_token() throws Exception {
+     void get_401_when_create_deal_with_invalid_token() throws Exception {
         mockMvc.perform(post("/api/v1/advertisement/" + FIRST_AD_ID + "/deal")
                 .header(AUTHORIZATION, jwtTokenProvider.generateAccessToken(
                     FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole())))
@@ -133,7 +133,7 @@ public class AdvertisementApiTest {
     }
 
     @Test
-    public void get_400_when_create_deal_with_yourself() throws Exception {
+     void get_400_when_create_deal_with_yourself() throws Exception {
         mockMvc.perform(post("/api/v1/advertisement/" + SECOND_AD_ID + "/deal")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
                     FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole()))))
@@ -144,7 +144,7 @@ public class AdvertisementApiTest {
     }
 
     @Test
-    public void get_400_when_create_already_existed_deal() throws Exception {
+     void get_400_when_create_already_existed_deal() throws Exception {
         mockMvc.perform(post("/api/v1/advertisement/" + THIRD_AD_ID + "/deal")
                 .header(AUTHORIZATION, BEARER.concat(jwtTokenProvider.generateAccessToken(
                     FIRST_USER.getEmail(), Collections.singletonMap("ROLE", FIRST_USER.getRole()))))

@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     TestMinioContainer.PropertiesInitializer.class})
 @Sql(scripts = "/db/user_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/db/clean_user_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class AuthApiTest {
+ class AuthApiTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,7 +44,7 @@ public class AuthApiTest {
     private JwtTokenService jwtTokenService;
 
     @Test
-    public void login_successfully() throws Exception {
+     void login_successfully() throws Exception {
         mockMvc.perform(post("/api/v1/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
@@ -57,7 +57,7 @@ public class AuthApiTest {
     }
 
     @Test
-    public void get_401_when_login_with_invalid_credentionals() throws Exception {
+     void get_401_when_login_with_invalid_credentionals() throws Exception {
         mockMvc.perform(post("/api/v1/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
@@ -68,7 +68,7 @@ public class AuthApiTest {
     }
 
     @Test
-    public void refresh_token_successfully() throws Exception {
+     void refresh_token_successfully() throws Exception {
         RefreshToken refreshToken = jwtTokenService.addRefreshToken(UserResponse.builder()
             .id(FIRST_USER.getId())
             .email(FIRST_USER.getEmail())
@@ -84,7 +84,7 @@ public class AuthApiTest {
     }
 
     @Test
-    public void get_401_when_refresh_invalid_token() throws Exception {
+     void get_401_when_refresh_invalid_token() throws Exception {
         mockMvc.perform(post("/api/v1/token/refresh")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
@@ -94,7 +94,7 @@ public class AuthApiTest {
     }
 
     @Test
-    public void get_401_when_refresh_expired_token() throws Exception {
+     void get_401_when_refresh_expired_token() throws Exception {
         mockMvc.perform(post("/api/v1/token/refresh")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +

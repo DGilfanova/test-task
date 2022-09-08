@@ -43,6 +43,7 @@ import static com.technokratos.adboard.constant.Constant.MESSAGE_DESTINATION;
 import static com.technokratos.adboard.constant.Constant.SEND_MESSAGE_ENDPOINT;
 import static com.technokratos.adboard.constant.TestConstant.FIRST_USER;
 import static com.technokratos.adboard.constant.TestConstant.SECOND_USER_ID;
+import static com.technokratos.adboard.constant.TestConstant.TIMEOUT;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -57,7 +58,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
     TestMinioContainer.PropertiesInitializer.class})
 @Sql(scripts = "/db/chat_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/db/clean_chat_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class WebSocketControllerTest {
+class WebSocketControllerTest {
 
     @Value("${local.server.port}")
     private int port;
@@ -76,7 +77,7 @@ public class WebSocketControllerTest {
     }
 
     @Test
-    public void test_send_message_endpoint_successfully() throws InterruptedException, ExecutionException,
+     void test_send_message_endpoint_successfully() throws InterruptedException, ExecutionException,
         TimeoutException {
         WebSocketStompClient stompClient = createStompClient();
 
@@ -89,7 +90,7 @@ public class WebSocketControllerTest {
         //connect
         StompSession stompSession = stompClient.connect(URL, new WebSocketHttpHeaders(),
                 stompHeaders, new StompSessionHandlerAdapter() {})
-            .get(1, SECONDS);
+            .get(TIMEOUT, SECONDS);
 
         //subscribe on interlocutor destination
         stompSession.subscribe(DESTINATION_PREFIX + "/" + SECOND_USER_ID
@@ -111,17 +112,16 @@ public class WebSocketControllerTest {
     }
 
     @Test
-    public void get_exception_when_connect_without_token() {
+     void get_exception_when_connect_without_token() {
         WebSocketStompClient stompClient = createStompClient();
 
-        assertThrows(ExecutionException.class, () -> {
+        assertThrows(ExecutionException.class, () ->
             stompClient.connect(URL, new StompSessionHandlerAdapter() {})
-                .get(1, SECONDS);
-        });
+            .get(TIMEOUT, SECONDS));
     }
 
     @Test
-    public void get_exception_when_send_without_token() throws InterruptedException, ExecutionException,
+     void get_exception_when_send_without_token() throws InterruptedException, ExecutionException,
         TimeoutException {
         WebSocketStompClient stompClient = createStompClient();
 
@@ -134,7 +134,7 @@ public class WebSocketControllerTest {
         //connect
         StompSession stompSession = stompClient.connect(URL, new WebSocketHttpHeaders(),
                 stompHeaders, new StompSessionHandlerAdapter() {})
-            .get(1, SECONDS);
+            .get(TIMEOUT, SECONDS);
 
         //subscribe on interlocutor destination
         stompSession.subscribe(DESTINATION_PREFIX + "/" + SECOND_USER_ID
@@ -147,13 +147,11 @@ public class WebSocketControllerTest {
             .timestamp(Timestamp.valueOf(LocalDateTime.now()))
             .build());
 
-        assertThrows(TimeoutException.class, () -> {
-            completableFuture.get(10, SECONDS);
-        });
+        assertThrows(TimeoutException.class, () -> completableFuture.get(10, SECONDS));
     }
 
     @Test
-    public void get_exception_when_send_invalid_data() throws InterruptedException, ExecutionException,
+     void get_exception_when_send_invalid_data() throws InterruptedException, ExecutionException,
         TimeoutException {
         WebSocketStompClient stompClient = createStompClient();
 
@@ -166,7 +164,7 @@ public class WebSocketControllerTest {
         //connect
         StompSession stompSession = stompClient.connect(URL, new WebSocketHttpHeaders(),
                 stompHeaders, new StompSessionHandlerAdapter() {})
-            .get(1, SECONDS);
+            .get(TIMEOUT, SECONDS);
 
         //subscribe on interlocutor destination
         stompSession.subscribe(DESTINATION_PREFIX + "/" + SECOND_USER_ID
@@ -181,9 +179,7 @@ public class WebSocketControllerTest {
             .timestamp(Timestamp.valueOf(LocalDateTime.now()))
             .build());
 
-        assertThrows(TimeoutException.class, () -> {
-            completableFuture.get(10, SECONDS);
-        });
+        assertThrows(TimeoutException.class, () -> completableFuture.get(10, SECONDS));
     }
 
     private WebSocketStompClient createStompClient() {

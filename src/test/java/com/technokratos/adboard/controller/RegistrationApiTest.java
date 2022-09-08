@@ -30,13 +30,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     TestMinioContainer.PropertiesInitializer.class})
 @Sql(scripts = "/db/user_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "/db/clean_user_data.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class RegistrationApiTest {
+ class RegistrationApiTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void create_user_successfully() throws Exception {
+     void create_user_successfully() throws Exception {
         mockMvc.perform(post("/api/v1/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
@@ -50,7 +50,7 @@ public class RegistrationApiTest {
     }
 
     @Test
-    public void get_400_when_create_user_with_weak_password() throws Exception {
+     void get_400_when_create_user_with_weak_password() throws Exception {
         mockMvc.perform(post("/api/v1/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
@@ -62,7 +62,7 @@ public class RegistrationApiTest {
     }
 
     @Test
-    public void get_400_when_create_user_with_existing_email() throws Exception {
+     void get_400_when_create_user_with_existing_email() throws Exception {
         mockMvc.perform(post("/api/v1/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{ \n" +
